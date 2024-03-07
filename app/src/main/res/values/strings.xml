@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Fire Alarm App</string>
+    <string name="action_home">Trang chủ</string>
+    <string name="action_escape">Cách thoát hiểm</string>
+    <string name="action_skill">Kỹ năng PCCC</string>
+    <string name="action_mypage">Cá nhân</string>
+    <string name="my_map_api_key">AIzaSyBhKP111E9xtxVRYCYr2qOgXrLnQFOunJI</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+
+</resources>
