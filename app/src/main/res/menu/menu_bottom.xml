@@ -5,15 +5,15 @@
         android:icon="@drawable/baseline_home_black_36"
         android:title="@string/action_home" />
     <item
-        android:id="@+id/favourite"
+        android:id="@+id/skill"
         android:icon="@drawable/run"
         android:title="@string/action_escape" />
     <item
-        android:id="@+id/my_page"
+        android:id="@+id/fire"
         android:icon="@drawable/fire_ex"
         android:title="@string/action_skill" />
     <item
-        android:id="@+id/AppToApp"
+        android:id="@+id/my_page"
         android:icon="@drawable/baseline_account_circle_black_24"
         android:title="@string/action_mypage"/>
 </menu>

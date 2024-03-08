@@ -2,9 +2,11 @@ package com.ndm.da_test.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +32,7 @@ import com.ndm.da_test.R;
 
 public class LoginFragment extends Fragment {
 
-    private TextView textView;
+    private Button btn;
     private GoogleSignInClient client;
 
     @Nullable
@@ -39,62 +41,47 @@ public class LoginFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        textView = view.findViewById(R.id.signInWithGoogle);
+        btn = view.findViewById(R.id.signInWithGoogle);
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        client = GoogleSignIn.getClient(getActivity(),options);
-        textView.setOnClickListener(new View.OnClickListener() {
+
+        client = GoogleSignIn.getClient(getContext(), options);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = client.getSignInIntent();
-                startActivityForResult(i,1234);
-
+                signIn();
             }
         });
         return view;
     }
 
+    private void signIn() {
+        Intent signInIntent = client.getSignInIntent();
+        startActivityForResult(signInIntent, 1234);
+    }
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 1234) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-
-                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                FirebaseAuth.getInstance().signInWithCredential(credential)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                                    startActivity(intent);
-
-                                } else {
-                                    Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-                        });
-
+                if (account != null) {
+                    // User is signed in
+                    // Start MainActivity with ImageFeedFragment displayed
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                } else {
+                    Log.d("Success", "User is not signed in");
+                }
             } catch (ApiException e) {
-                e.printStackTrace();
+                Log.w("Success", "signInResult:failed code=" + e.getStatusCode());
             }
-
-        }
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
         }
     }
+
 }
