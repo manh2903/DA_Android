@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "886703048038-nna5g46ptqqsnhlbjbg5hvfbrq67slr9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ndm.da_test",
+            "certificate_hash": "c0206adf1b49bad830cd518faec3a95662c067ed"
+          }
+        },
+        {
           "client_id": "886703048038-3hkpq9g3vbl3o86kiued2pgqp0cf4nqe.apps.googleusercontent.com",
           "client_type": 3
         }

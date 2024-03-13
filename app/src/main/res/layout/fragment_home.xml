@@ -1,10 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="100dp"
-    android:text="1"></TextView>
-</LinearLayout>
+    android:layout_height="match_parent"
+    android:background="@drawable/treefire"
+    android:orientation="vertical">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#70FFFFFF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/sharingan"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/message_bubble">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="Hết sức giữ bình tĩnh khi có dấu hiệu hỏa hoạn và hãy nhấn '' Báo cháy '' ngay để gửi thông báo đến những người xung quanh bạn."
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Gọi 114"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_background"
+                android:drawableTop="@drawable/phone"
+                android:padding="16dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="30dp"/>
+            
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.4"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Gọi 114"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_background"
+                android:drawableTop="@drawable/phone"
+                android:padding="16dp"
+                android:layout_weight="1"
+                android:layout_marginRight="30dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

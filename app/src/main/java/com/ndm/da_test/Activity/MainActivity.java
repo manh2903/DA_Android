@@ -1,26 +1,63 @@
-package com.ndm.da_test;
+package com.ndm.da_test.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ndm.da_test.Fragment.LoginFragment;
+import com.google.android.material.navigation.NavigationView;
+import com.ndm.da_test.R;
 import com.ndm.da_test.ViewPager.ViewPagerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int test1 = 1;
+    private static final int test2 = 2;
+
+
+    private int mCurrentFragment = test1;
+
+    private DrawerLayout mDrawerLayout;
     private BottomNavigationView mnavigationView;
+
+    private NavigationView navigationView;
     private ViewPager mViewPager;
+
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mnavigationView = findViewById(R.id.bottom_nav);
+
         mViewPager = findViewById(R.id.viewpager);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        mDrawerLayout = findViewById(R.id.main);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         setupViewPager();
         mnavigationView.setOnItemSelectedListener(item -> {
             int i = item.getItemId();
@@ -42,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
     }
+
     private void setupViewPager() {
         ViewPagerAdapter viewPagerAdapter;
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -73,9 +112,27 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
-
     }
-
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.nav_chinhsach) {
+            Intent intent = new Intent(getApplicationContext(), Test1_Fragment.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_thongtin) {
+            Intent intent = new Intent(getApplicationContext(), Test2_Fragment.class);
+            startActivity(intent);
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer((GravityCompat.START));
+        } else {
+            super.onBackPressed();
+        }
+    }
 
 }
