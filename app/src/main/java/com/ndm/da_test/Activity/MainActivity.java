@@ -12,42 +12,41 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ndm.da_test.R;
 import com.ndm.da_test.ViewPager.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private static final int test1 = 1;
-    private static final int test2 = 2;
-
-
-    private int mCurrentFragment = test1;
-
     private DrawerLayout mDrawerLayout;
     private BottomNavigationView mnavigationView;
-
     private NavigationView navigationView;
     private ViewPager mViewPager;
-
     private Toolbar toolbar;
+
+    private ImageView imgAvatar;
+    private TextView tvName,tvEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mnavigationView = findViewById(R.id.bottom_nav);
+        initUI();
 
-        mViewPager = findViewById(R.id.viewpager);
-
-        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mDrawerLayout = findViewById(R.id.main);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
@@ -55,10 +54,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = findViewById(R.id.navigation_view);
+
         navigationView.setNavigationItemSelectedListener(this);
 
+
         setupViewPager();
+        showUserInformation();
+
         mnavigationView.setOnItemSelectedListener(item -> {
             int i = item.getItemId();
             if (i == R.id.home) {
@@ -79,6 +81,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             return true;
         });
+
+    }
+
+    private void initUI(){
+
+        mnavigationView = findViewById(R.id.bottom_nav);
+        mViewPager = findViewById(R.id.viewpager);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.navigation_view);
+
+        imgAvatar = navigationView.getHeaderView(0).findViewById(R.id.img_avatar);
+        tvName = navigationView.getHeaderView(0).findViewById(R.id.tv_name);
+        tvEmail = navigationView.getHeaderView(0).findViewById(R.id.tv_email);
 
     }
 
@@ -122,6 +137,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_thongtin) {
             Intent intent = new Intent(getApplicationContext(), Test2_Fragment.class);
             startActivity(intent);
+        } else if(id == R.id.nav_logout)
+        {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent (getApplicationContext(), SignInActivity.class);
+            startActivity(intent);
+            finish();
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -133,6 +154,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void showUserInformation(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null )
+        {
+            return;
+        }
+        String name = user.getDisplayName();
+        String email = user.getEmail();
+        Uri photoUrl = user.getPhotoUrl();
+        if(name == null)
+        {
+            tvName.setVisibility(View.GONE);
+        }else
+        {
+            tvName.setVisibility(View.VISIBLE);
+            tvName.setText(name);
+        }
+        tvEmail.setText(email);
+        Glide.with(this).load(photoUrl).error(R.drawable.default_avatar).into(imgAvatar);
     }
 
 }

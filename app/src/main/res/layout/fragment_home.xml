@@ -50,15 +50,15 @@
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Gọi 114"
-                android:textColor="#FFFFFF"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
                 android:background="@drawable/button_background"
                 android:drawableTop="@drawable/phone"
                 android:padding="16dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="30dp"/>
-            
+                android:text="Gọi 114"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp" />
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
@@ -67,10 +67,12 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Gọi 114"
+                android:text="Xem và thông báo
+                vị trí đám chảy"
+                android:textSize="10dp"
                 android:textColor="#FFFFFF"
                 android:background="@drawable/button_background"
-                android:drawableTop="@drawable/phone"
+                android:drawableTop="@drawable/map"
                 android:padding="16dp"
                 android:layout_weight="1"
                 android:layout_marginRight="30dp"

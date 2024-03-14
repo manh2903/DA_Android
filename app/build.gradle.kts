@@ -42,14 +42,18 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.annotation:annotation:1.7.1")
 
-    implementation("de.hdodenhof:circleimageview:3.1.0")
 
 
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
 
+    //authentication
     implementation("com.google.firebase:firebase-auth:22.3.1")
 
+    //load ảnh bằng url
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    //Circle image
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
-    implementation("com.google.android.gms:play-services-auth:21.0.0")
 
 
 }

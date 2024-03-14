@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "886703048038",
-    "project_id": "da-test-dfd49",
-    "storage_bucket": "da-test-dfd49.appspot.com"
+    "project_number": "679428473672",
+    "project_id": "datest1-52ff7",
+    "storage_bucket": "datest1-52ff7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:886703048038:android:586956bb60b9d9d04fb4a7",
+        "mobilesdk_app_id": "1:679428473672:android:153b1d2255d09f5868e97d",
         "android_client_info": {
           "package_name": "com.ndm.da_test"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "886703048038-nna5g46ptqqsnhlbjbg5hvfbrq67slr9.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ndm.da_test",
-            "certificate_hash": "c0206adf1b49bad830cd518faec3a95662c067ed"
-          }
-        },
-        {
-          "client_id": "886703048038-3hkpq9g3vbl3o86kiued2pgqp0cf4nqe.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAygWBmH9DCRcfv4QoFfdKUT45-ybVjhco"
+          "current_key": "AIzaSyCi4Q8b4MGO_tnlH6jMvRwM9KQJlLCbZJM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "886703048038-3hkpq9g3vbl3o86kiued2pgqp0cf4nqe.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
