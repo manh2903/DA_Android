@@ -6,21 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,13 +23,12 @@ import com.ndm.da_test.R;
 import com.ndm.da_test.ViewPager.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private FrameLayout notification;
     private DrawerLayout mDrawerLayout;
     private BottomNavigationView mnavigationView;
     private NavigationView navigationView;
     private ViewPager mViewPager;
     private Toolbar toolbar;
-
-    private ImageView imgAvatar;
     private TextView tvName,tvEmail;
 
     @Override
@@ -54,12 +47,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-
         navigationView.setNavigationItemSelectedListener(this);
-
 
         setupViewPager();
         showUserInformation();
+        initListener();
+    }
+
+    private void initUI(){
+
+        mnavigationView = findViewById(R.id.bottom_nav);
+        mViewPager = findViewById(R.id.viewpager);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.navigation_view);
+        notification = toolbar.findViewById(R.id.notification);
+        tvName = navigationView.getHeaderView(0).findViewById(R.id.tv_name);
+        tvEmail = navigationView.getHeaderView(0).findViewById(R.id.tv_email);
+    }
+    private void initListener(){
 
         mnavigationView.setOnItemSelectedListener(item -> {
             int i = item.getItemId();
@@ -81,20 +86,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             return true;
         });
-
-    }
-
-    private void initUI(){
-
-        mnavigationView = findViewById(R.id.bottom_nav);
-        mViewPager = findViewById(R.id.viewpager);
-        toolbar = findViewById(R.id.toolbar);
-        navigationView = findViewById(R.id.navigation_view);
-
-        imgAvatar = navigationView.getHeaderView(0).findViewById(R.id.img_avatar);
-        tvName = navigationView.getHeaderView(0).findViewById(R.id.tv_name);
-        tvEmail = navigationView.getHeaderView(0).findViewById(R.id.tv_email);
-
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupViewPager() {
@@ -156,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void showUserInformation(){
+    public void showUserInformation(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null )
         {
@@ -164,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         String name = user.getDisplayName();
         String email = user.getEmail();
-        Uri photoUrl = user.getPhotoUrl();
         if(name == null)
         {
             tvName.setVisibility(View.GONE);
@@ -174,7 +171,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tvName.setText(name);
         }
         tvEmail.setText(email);
-        Glide.with(this).load(photoUrl).error(R.drawable.default_avatar).into(imgAvatar);
     }
+
+
+
+
 
 }

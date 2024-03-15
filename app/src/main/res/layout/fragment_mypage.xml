@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:gravity="center"
+    android:orientation="vertical">
+    
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/edt_full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="100dp"
-            android:text="4" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="100dp"
-            android:layout_marginTop="400dp"
-            android:text="4" />
-
-    </LinearLayout>
-
-</ScrollView>
+        android:hint="Full name"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"/>
+    <TextView
+        android:id="@+id/edt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"/>
+    <Button
+        android:id="@+id/btn_update_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UPDATE PROFILE"
+        android:layout_marginTop="30dp"/>
+</LinearLayout>

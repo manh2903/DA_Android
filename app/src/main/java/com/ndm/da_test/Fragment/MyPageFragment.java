@@ -1,22 +1,109 @@
 package com.ndm.da_test.Fragment;
 
+
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import android.widget.TextView;
+import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.ndm.da_test.Activity.MainActivity;
 import com.ndm.da_test.R;
 
 public class MyPageFragment extends Fragment {
+
+    private View mview;
+    private EditText edtFullName;
+
+    private TextView edtEmail;
+    private Button btnUpdateProfile;
+
+    private  MainActivity mainActivity;
+
+    private ProgressDialog progressDialog;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mypage, container, false);
-        return view;
+         mview = inflater.inflate(R.layout.fragment_mypage, container, false);
+         initUi();
+         mainActivity =(MainActivity) getActivity();
+         setUserInformation();
+         initListener();
+
+        return mview;
     }
+
+    private void initUi(){
+
+        edtFullName = mview.findViewById(R.id.edt_full_name);
+        edtEmail = mview.findViewById(R.id.edt_email);
+        btnUpdateProfile = mview.findViewById(R.id.btn_update_profile);
+        progressDialog = new ProgressDialog(getContext());
+    }
+
+    private void setUserInformation(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null)
+        {
+            return;
+        }
+        edtFullName.setText(user.getDisplayName());
+        edtEmail.setText(user.getEmail());
+    }
+    private void initListener(){
+        btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickUpdateProfile();
+            }
+        });
+    }
+
+    private void onClickUpdateProfile(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null )
+        {
+            return;
+        }
+        String strFullName = edtFullName.getText().toString().trim();
+
+        progressDialog.show();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(strFullName)
+                .build();
+
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getActivity(),"Update profile success",Toast.LENGTH_SHORT).show();
+                            mainActivity.showUserInformation();
+
+                        }
+                    }
+                });
+    }
+
 }

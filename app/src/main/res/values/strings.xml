@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fire Alarm App</string>
+    <string name="app_name">Fire Alarm</string>
     <string name="action_home">Trang chủ</string>
     <string name="action_escape">Cách thoát hiểm</string>
     <string name="action_skill">Kỹ năng PCCC</string>
