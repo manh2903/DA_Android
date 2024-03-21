@@ -4,11 +4,9 @@
     <string name="action_escape">Cách thoát hiểm</string>
     <string name="action_skill">Kỹ năng PCCC</string>
     <string name="action_mypage">Cá nhân</string>
-    <string name="my_map_api_key">AIzaSyBhKP111E9xtxVRYCYr2qOgXrLnQFOunJI</string>
-
+    <string name="my_map_api_key">AIzaSyBVgwUu6Cu1TymqzaqZRCUV5LMZQgfTFOw</string>
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
-
     <string name="nav_chinhsach">Chính sách bảo mật</string>
     <string name="nav_thongtin">Thông tin</string>
     <string name="nav_logout">Thoát</string>

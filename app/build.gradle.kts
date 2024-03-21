@@ -43,17 +43,24 @@ dependencies {
     implementation("androidx.annotation:annotation:1.7.1")
 
 
-
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
 
     //authentication
     implementation("com.google.firebase:firebase-auth:22.3.1")
 
+    //realtime db
+    implementation("com.google.firebase:firebase-database")
+
+
+
     //load ảnh bằng url
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     //Circle image
     implementation("de.hdodenhof:circleimageview:3.1.0")
-
+    //map
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    //location
+    implementation("com.google.android.gms:play-services-location:21.2.0")
 
 
 }

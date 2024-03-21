@@ -16,7 +16,7 @@ public class SkillFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_skill, container, false);
+        View view = inflater.inflate(R.layout.fragment_fire, container, false);
         return view;
     }
 }

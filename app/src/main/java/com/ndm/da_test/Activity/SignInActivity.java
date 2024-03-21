@@ -20,9 +20,7 @@ import com.ndm.da_test.R;
 
 public class SignInActivity extends AppCompatActivity {
 
-
     private LinearLayout layoutSignUp;
-
     private EditText edtEmail, edtPassword;
     private Button btnSignIn;
     private ProgressDialog progressDialog;

@@ -30,12 +30,9 @@ public class MyPageFragment extends Fragment {
 
     private View mview;
     private EditText edtFullName;
-
     private TextView edtEmail;
     private Button btnUpdateProfile;
-
     private  MainActivity mainActivity;
-
     private ProgressDialog progressDialog;
 
 

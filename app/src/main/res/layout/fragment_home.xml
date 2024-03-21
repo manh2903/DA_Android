@@ -49,6 +49,7 @@
             android:layout_marginTop="20dp">
 
             <Button
+                android:id="@+id/btn_call"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="30dp"
@@ -57,7 +58,7 @@
                 android:drawableTop="@drawable/phone"
                 android:padding="16dp"
                 android:text="Gọi 114"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/orange"
                 android:textSize="10sp" />
             <View
                 android:layout_width="0dp"
@@ -65,12 +66,12 @@
                 android:layout_weight="0.4"/>
 
             <Button
+                android:id="@+id/btn_map"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Xem và thông báo
-                vị trí đám chảy"
+                android:text="Xem và thông báo vị trí đám chảy"
                 android:textSize="10dp"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/orange"
                 android:background="@drawable/button_background"
                 android:drawableTop="@drawable/map"
                 android:padding="16dp"

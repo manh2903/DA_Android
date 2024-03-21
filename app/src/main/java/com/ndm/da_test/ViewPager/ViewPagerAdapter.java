@@ -6,13 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 
-import com.ndm.da_test.Fragment.FireFragment;
+import com.ndm.da_test.Fragment.SkillFragment;
 import com.ndm.da_test.Fragment.HomeFragment;
 import com.ndm.da_test.Fragment.MyPageFragment;
-import com.ndm.da_test.Fragment.SkillFragment;
+import com.ndm.da_test.Fragment.EscapeFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
-
 
     public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -25,9 +24,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new HomeFragment();
             case 1:
-                return new SkillFragment();
+                return new EscapeFragment();
             case 2:
-                return new FireFragment();
+                return new SkillFragment();
             case 3:
                 return new MyPageFragment();
             default:
