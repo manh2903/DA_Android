@@ -23,8 +23,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ndm.da_test.Activity.MainActivity;
 import com.ndm.da_test.R;
+
+import java.util.HashMap;
 
 public class MyPageFragment extends Fragment {
 
@@ -78,26 +82,46 @@ public class MyPageFragment extends Fragment {
     private void onClickUpdateProfile(){
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user == null )
-        {
+        if (user == null) {
             return;
         }
         String strFullName = edtFullName.getText().toString().trim();
-
+        String userId = user.getUid();
         progressDialog.show();
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(strFullName)
-                .build();
 
-        user.updateProfile(profileUpdates)
+// Tạo một tham chiếu đến node của người dùng trong Realtime Database
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+
+// Tạo một HashMap chứa dữ liệu cần cập nhật
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put("fullName", strFullName);
+
+// Thực hiện cập nhật thông tin người dùng trên Realtime Database
+        usersRef.updateChildren(updates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        progressDialog.dismiss();
                         if (task.isSuccessful()) {
-                            Toast.makeText(getActivity(),"Update profile success",Toast.LENGTH_SHORT).show();
-                            mainActivity.showUserInformation();
-
+                            // Nếu cập nhật trên Realtime Database thành công, tiến hành cập nhật trên Firebase Authentication
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(strFullName)
+                                    .build();
+                            user.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            progressDialog.dismiss();
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(getActivity(), "Update profile success", Toast.LENGTH_SHORT).show();
+                                                mainActivity.showUserInformation();
+                                            } else {
+                                                Toast.makeText(getActivity(), "Failed to update profile", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(), "Failed to update profile", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

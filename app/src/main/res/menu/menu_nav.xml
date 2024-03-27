@@ -3,22 +3,22 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_chinhsach"
-            android:icon="@drawable/protection"
+            android:icon="@drawable/ic_protection"
             android:title="@string/nav_chinhsach" />
         <item
             android:id="@+id/nav_thongtin"
-            android:icon="@drawable/information"
+            android:icon="@drawable/ic_information"
             android:title="@string/nav_thongtin" />
     </group>
     <item android:title="Account">
         <menu>
             <item
                 android:id="@+id/nav_change_password"
-                android:icon="@drawable/password"
+                android:icon="@drawable/ic_password"
                 android:title="Thay đổi mật khẩu" />
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/logout"
+                android:icon="@drawable/ic_logout"
                 android:title="Đăng xuất"/>
         </menu>
     </item>

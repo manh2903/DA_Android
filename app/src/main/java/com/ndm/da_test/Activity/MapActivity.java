@@ -41,18 +41,13 @@ import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-
     private FrameLayout notification;
     public GoogleMap gMap;
-
     private Geocoder geocoder;
     public FusedLocationProviderClient fusedLocationClient;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
     private Toolbar toolbar;
-
     private TextView tv_location;
-
     private Button btn_myposition;
 
     private SearchView mapSearch;
@@ -187,7 +182,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Thêm marker vào bản đồ
         gMap.addMarker(markerOptions);
         // Di chuyển camera đến vị trí được chọn
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
     }
 
     private void displayAddress(LatLng latLng) {
@@ -219,7 +214,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                                 if (gMap != null) {
                                     gMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your current location"));
-                                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17));
+                                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 18));
                                 }
 
                                 // Sử dụng Geocoder để lấy địa chỉ từ tọa độ địa lý
@@ -283,7 +278,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 double longitude = firstAddress.getLongitude();
                 LatLng locationLatLng = new LatLng(latitude, longitude);
                 // Di chuyển bản đồ đến vị trí được tìm kiếm
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 17));
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 18));
             } else {
                 // Không tìm thấy địa điểm phù hợp
                 Toast.makeText(MapActivity.this, "No matching location found", Toast.LENGTH_SHORT).show();

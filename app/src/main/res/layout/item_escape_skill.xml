@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:id="@+id/layout_item">
 
     <TextView
         android:id="@+id/tv_id"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/button_stt"
+        android:background="@drawable/stt_background"
         android:textSize="20sp"
         android:gravity="center"
         android:text="1"/>
@@ -21,6 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Tổng hợp kỹ năng cơ bản để thoát khỏi hỏa hoạn"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
 </LinearLayout>

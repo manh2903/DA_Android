@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -49,7 +50,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public GoogleMap gMap;
-    private Geocoder geocoder;
+    public Geocoder geocoder;
     public FusedLocationProviderClient fusedLocationClient;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FrameLayout notification;
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager mViewPager;
     private Toolbar toolbar;
     private TextView tvName, tvEmail, tv_location;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,13 +92,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
             // Nếu đã có quyền, lấy vị trí hiện tại
-            getCurrentLocation();
+            getCurrentLocation(tv_location);
         }
         initListener();
     }
 
     private void initUI() {
-
         mnavigationView = findViewById(R.id.bottom_nav);
         mViewPager = findViewById(R.id.viewpager);
         toolbar = findViewById(R.id.toolbar);
@@ -102,7 +106,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tv_location = toolbar.findViewById(R.id.tv_location);
         tvName = navigationView.getHeaderView(0).findViewById(R.id.tv_name);
         tvEmail = navigationView.getHeaderView(0).findViewById(R.id.tv_email);
+
     }
+
+
 
     private void initListener() {
 
@@ -210,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvEmail.setText(email);
     }
 
-    public void getCurrentLocation() {
+    public void getCurrentLocation(TextView tv_location) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -222,7 +229,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     gMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your current location"));
                                     gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17));
                                 }
-
                                 // Sử dụng Geocoder để lấy địa chỉ từ tọa độ địa lý
                                 geocoder = new Geocoder(MainActivity.this);
                                 try {
@@ -253,4 +259,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
+
+
 }

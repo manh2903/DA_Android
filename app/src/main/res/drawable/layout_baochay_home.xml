@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Hiệu ứng đổ bóng -->
+    <item>
+        <shape android:shape="oval"> <!-- Đổi từ rectangle thành oval -->
+            <solid android:color="@color/orange"/> <!-- Màu đen với độ mờ -->
+        </shape>
+    </item>
+    <!-- Khung tin nhắn -->
+    <item android:top="4dp" android:right="4dp" android:bottom="4dp" android:left="4dp">
+        <shape android:shape="oval"> <!-- Đổi từ rectangle thành oval -->
+            <solid android:color="@color/orange2"/> <!-- Màu nền của khung tin nhắn -->
+        </shape>
+    </item>
+</layer-list>

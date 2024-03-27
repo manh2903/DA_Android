@@ -22,7 +22,16 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <EditText
+        android:id="@+id/testRealtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="100sp" />
+
+
     <TextView
+        android:id="@+id/testRealtime1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1"
@@ -30,6 +39,12 @@
 
     <Button
         android:id="@+id/post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hello" />
+
+    <Button
+        android:id="@+id/post2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="hello" />

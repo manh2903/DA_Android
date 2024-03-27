@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="40dp"
-    android:background="@drawable/screen"
+    android:background="@drawable/screen_login_out"
     tools:context=".Activity.SignUpActivity">
 
     <TextView

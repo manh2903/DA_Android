@@ -44,7 +44,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/notification" />
+                    android:src="@drawable/ic_notification" />
             </FrameLayout>
         </androidx.appcompat.widget.Toolbar>
 
@@ -76,7 +76,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="280dp"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/btn_baochay_background"
         android:text="Báo Cháy" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,5 +94,5 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/sharingan" />
+        android:background="@drawable/ic_vitri" />
 </RelativeLayout>

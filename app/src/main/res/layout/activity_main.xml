@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity"
     tools:openDrawer="start">
+
     <LinearLayout
         android:id="@+id/hihi"
         android:layout_width="match_parent"
@@ -31,23 +32,25 @@
                     android:layout_gravity="center"
                     android:text="Hello"
                     android:textColor="@color/white"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
 
                 <FrameLayout
                     android:id="@+id/notification"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="right"
                     android:layout_width="55dp"
-                    android:layout_height="?attr/actionBarSize">
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp">
+
                     <ImageView
-                        android:src="@drawable/notification"
-                        android:layout_gravity="center"
                         android:layout_width="25dp"
-                        android:layout_height="25dp"/>
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_notification" />
                 </FrameLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -56,19 +59,25 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_above="@+id/bottom_nav" />
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="300dp"
+                android:layout_height="400dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                app:itemBackground="@color/white"
+                android:background="@drawable/bottomnavigation_background"
                 app:itemIconTint="@color/color_bottom"
                 app:itemTextColor="@color/color_bottom"
                 app:menu="@menu/menu_bottom" />
-
         </RelativeLayout>
 
     </LinearLayout>

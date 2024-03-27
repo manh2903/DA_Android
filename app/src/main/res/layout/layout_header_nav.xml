@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/fire"/>
+            android:src="@drawable/ic_fire"/>
 
         <TextView
             android:layout_marginStart="5dp"

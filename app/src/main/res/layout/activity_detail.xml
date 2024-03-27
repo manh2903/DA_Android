@@ -12,24 +12,34 @@
         android:background="@color/orange"
         >
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/title_detail"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Thông tin"
-            android:textSize="25sp"
+            android:text="Detail"
+            android:textSize="16sp"
             android:layout_gravity="center"
+            android:singleLine="false"
+            android:maxLines="2"
             android:textColor="@android:color/white"
             android:textStyle="bold"/>
 
+        <FrameLayout
+            android:id="@+id/notification"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right"
+            android:layout_width="55dp"
+            android:layout_height="?attr/actionBarSize">
+            <ImageView
+                android:src="@drawable/share_icon"
+                android:layout_gravity="center"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+          />
+        </FrameLayout>
     </androidx.appcompat.widget.Toolbar>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2"
+        android:text="hello"
         android:textSize="100sp"/>
-
-
-
-
-
-
 </LinearLayout>

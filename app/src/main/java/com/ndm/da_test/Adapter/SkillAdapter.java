@@ -8,49 +8,45 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.ndm.da_test.Entities.Escape;
-import com.ndm.da_test.Interface.IClickItemEscapeListener;
+import com.ndm.da_test.Entities.Skill;
+import com.ndm.da_test.Interface.IClickItemSkillListener;
 import com.ndm.da_test.R;
-
 
 import java.util.List;
 
-public class EscapeAdapter extends RecyclerView.Adapter<EscapeAdapter.EscapeViewHolder> {
+public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.SkillViewHolder> {
 
-    private IClickItemEscapeListener iClickItemEscapeListener;
-    private List<Escape> mEscapeList;
-
-    public EscapeAdapter(List<Escape> escapeList, IClickItemEscapeListener listener) {
-        mEscapeList = escapeList;
-        iClickItemEscapeListener = listener;
+    private IClickItemSkillListener iClickItemSkillListener;
+    private List<Skill> mSkillList;
+    public SkillAdapter(List<Skill> skillList, IClickItemSkillListener listener) {
+        mSkillList = skillList;
+        iClickItemSkillListener = listener;
     }
 
     @NonNull
     @Override
-    public EscapeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SkillViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_escape_skill, parent, false);
-        return new EscapeViewHolder(view);
+        return new SkillViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EscapeViewHolder holder, int position) {
-        Escape escape = mEscapeList.get(position);
-        if(mEscapeList == null)
+    public void onBindViewHolder(@NonNull SkillViewHolder holder, int position) {
+        Skill skill = mSkillList.get(position);
+        if(mSkillList == null)
         {
             return;
         }
         try {
             int tvIdValue = position + 1;
             holder.tvId.setText(String.valueOf(tvIdValue));
-            holder.tvNameAction.setText(escape.getName());
+            holder.tvNameAction.setText(skill.getName());
             holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    iClickItemEscapeListener.onItemClick(escape);
+                    iClickItemSkillListener.onItemClick(skill);
                 }
             });
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,19 +54,19 @@ public class EscapeAdapter extends RecyclerView.Adapter<EscapeAdapter.EscapeView
 
     @Override
     public int getItemCount() {
-        if(mEscapeList != null)
+        if(mSkillList != null)
         {
-            return mEscapeList.size();
+            return mSkillList.size();
         }
         return 0;
     }
 
-    public class EscapeViewHolder extends RecyclerView.ViewHolder {
+    public class SkillViewHolder extends RecyclerView.ViewHolder {
         TextView tvId;
         TextView tvNameAction;
         LinearLayout layout;
 
-        public EscapeViewHolder(@NonNull View itemView) {
+        public SkillViewHolder(@NonNull View itemView) {
             super(itemView);
             tvId = itemView.findViewById(R.id.tv_id);
             tvNameAction = itemView.findViewById(R.id.tv_name_action);
@@ -78,4 +74,3 @@ public class EscapeAdapter extends RecyclerView.Adapter<EscapeAdapter.EscapeView
         }
     }
 }
-

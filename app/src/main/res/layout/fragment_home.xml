@@ -1,9 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/treefire"
+    android:background="@drawable/home_background"
     android:orientation="vertical">
-
 
     <View
         android:layout_width="match_parent"
@@ -15,21 +14,41 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:id="@+id/layout_fire_bell"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/sharingan"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp" />
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/layout_baochay_home">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/fire_bell"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Báo cháy"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="30sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="tại vị trí của bạn"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="15sp"/>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/message_bubble">
 
@@ -40,13 +59,14 @@
                 android:text="Hết sức giữ bình tĩnh khi có dấu hiệu hỏa hoạn và hãy nhấn '' Báo cháy '' ngay để gửi thông báo đến những người xung quanh bạn."
                 android:textColor="@color/black"
                 android:textSize="15sp" />
+
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_call"
@@ -54,30 +74,30 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="30dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_background"
-                android:drawableTop="@drawable/phone"
+                android:background="@drawable/btn_background_home"
+                android:drawableTop="@drawable/ic_phone"
                 android:padding="16dp"
                 android:text="Gọi 114"
                 android:textColor="@color/orange"
                 android:textSize="10sp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="0.4"/>
+                android:layout_weight="0.4" />
 
             <Button
                 android:id="@+id/btn_map"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Xem và thông báo vị trí đám chảy"
-                android:textSize="10dp"
-                android:textColor="@color/orange"
-                android:background="@drawable/button_background"
-                android:drawableTop="@drawable/map"
-                android:padding="16dp"
-                android:layout_weight="1"
                 android:layout_marginRight="30dp"
-                />
+                android:layout_weight="1"
+                android:background="@drawable/btn_background_home"
+                android:drawableTop="@drawable/ic_map"
+                android:padding="16dp"
+                android:text="Xem và thông báo vị trí đám chảy"
+                android:textColor="@color/orange"
+                android:textSize="10dp" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

@@ -16,13 +16,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import com.ndm.da_test.R;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private EditText edtEmail, edtPassword;
     private Button btnSignUp;
-
     private ProgressDialog progressDialog;
 
     @Override
@@ -63,6 +68,28 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
+                            FirebaseUser user = auth.getCurrentUser();
+                            final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+                            // Kiểm tra xem bảng "users" đã tồn tại hay chưa
+                            usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (!dataSnapshot.exists()) {
+                                        // Nếu bảng "users" chưa tồn tại, tạo mới bảng
+                                        usersRef.setValue(true);
+                                    }
+
+                                    // Thêm người dùng vào bảng "users"
+                                    usersRef.child(user.getUid()).child("email").setValue(strEmail);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(SignUpActivity.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                             // Sign in success, update UI with the signed-in user's information
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                             startActivity(intent);

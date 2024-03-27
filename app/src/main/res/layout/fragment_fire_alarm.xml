@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/layout_baochay_background"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/img_clear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_clear"
+        android:layout_gravity="end" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_warning"
+        android:layout_gravity="center_horizontal" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lưu ý: Báo cháy sai sự thật là phạm pháp"
+        android:textColor="#FF0000"
+        android:textSize="15sp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bạn muốn báo cháy"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal" />
+    <TextView
+        android:id="@+id/text_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tại hello kitty ..................................."
+        android:textColor="@color/black"
+        android:textSize="20sp"
+       />
+    <Button
+        android:id="@+id/btn_baochay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Báo cháy"
+        android:background="@drawable/btn_baochay_fragment"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btn_baochay_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Báo cháy qua bản đồ"
+        android:background="@drawable/btn_baochay_frommap_fragment"
+        android:textColor="@color/orange"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
