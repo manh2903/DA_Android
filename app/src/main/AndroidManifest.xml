@@ -8,8 +8,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
 
     <application
+        android:usesCleartextTraffic="true"
         android:name=".Activity.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -57,14 +60,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/my_map_api_key" />
 
-        <service
-            android:name=".FCM.MessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        <receiver android:name=".Receiver.BootReceiver"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
-
-
 </manifest>

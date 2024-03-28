@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
 import android.util.Log;
 
 
@@ -34,8 +35,20 @@ public class MessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String title, String body) {
+
+
         Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Kiểm tra xem máy có đang tắt không
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (powerManager != null && !powerManager.isInteractive()) {
+            // Nếu máy đang tắt, gửi một Intent để bật màn hình
+            Intent wakeUpIntent = new Intent(this, MainActivity.class);
+            wakeUpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(wakeUpIntent);
+        }
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, MyApplication.CHANNEL_ID)
                 .setContentTitle(title)
@@ -49,6 +62,7 @@ public class MessagingService extends FirebaseMessagingService {
             notificationManager.notify(1, notificationBuilder.build());
         }
     }
+
 
     @Override
     public void onNewToken(@NonNull String token) {

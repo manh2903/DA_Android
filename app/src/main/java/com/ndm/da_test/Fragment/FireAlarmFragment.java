@@ -3,6 +3,7 @@ package com.ndm.da_test.Fragment;
 import static com.ndm.da_test.Activity.MainActivity.LOCATION_PERMISSION_REQUEST_CODE;
 
 import android.Manifest;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -33,7 +34,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +45,6 @@ import com.ndm.da_test.API.NotificationApi;
 import com.ndm.da_test.API.RetrofitClient;
 import com.ndm.da_test.Activity.MainActivity;
 import com.ndm.da_test.Activity.MapActivity;
-import com.ndm.da_test.Entities.Escape;
 import com.ndm.da_test.Entities.Noti;
 import com.ndm.da_test.R;
 
@@ -173,54 +173,76 @@ public class FireAlarmFragment extends Fragment {
         // Khởi tạo tham chiếu đến "tokens" trong cơ sở dữ liệu Firebase Realtime
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference tokensRef = database.getReference("tokens");
+        DatabaseReference notificationsRef = database.getReference("notifications");
         List<String> tokens = new ArrayList<>();
 
-        // Lấy danh sách token từ cơ sở dữ liệu
-        tokensRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String tokenKey = dataSnapshot.getKey();
-                    tokens.add(tokenKey);
-                }
-                // Tạo đối tượng Noti với tiêu đề, nội dung và danh sách token
-                Noti notice = new Noti();
-                notice.setTitle("Thông báo báo cháy");
-                notice.setBody("Địa chỉ: " + location);
-                notice.setToken(tokens);
+        try {
+            // Lấy danh sách token từ cơ sở dữ liệu
+            tokensRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        String tokenKey = dataSnapshot.getKey();
+                        tokens.add(tokenKey);
+                    }
+                    // Tạo đối tượng Noti với tiêu đề, nội dung và danh sách token
+                    Noti notice = new Noti();
+                    notice.setTitle("Thông báo báo cháy");
+                    notice.setBody("Địa chỉ: " + location);
+                    notice.setToken(tokens);
+                    Log.d("Noti","Noti : " + notice);
 
-                Log.d("Noti","Noti : " + notice);
+                    notificationsRef.push().setValue(notice)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Hiển thị thông báo khi gửi thành công
+                                    displayNotification("Thông báo", "Thông báo đã được gửi");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Xử lý khi gặp lỗi trong quá trình gửi thông báo
+                                    Toast.makeText(requireContext(), "Lỗi khi gửi thông báo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-                // Gọi phương thức API để gửi thông báo
-                Call<Noti> call = notificationApi.sendNotification(notice);
-                call.enqueue(new Callback<Noti>() {
-                    @Override
-                    public void onResponse(Call<Noti> call, Response<Noti> response) {
-                        if (response.isSuccessful()) {
-                            displayNotification(notice.getTitle(),notice.getBody());
-                            // Xử lý khi gửi thông báo thành công
-                            Toast.makeText(requireContext(), "Thông báo đã được gửi", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Xử lý khi gặp lỗi trong quá trình gửi thông báo
-                            Toast.makeText(requireContext(), "Lỗi khi gửi thông báo", Toast.LENGTH_SHORT).show();
+                    // Gọi phương thức API để gửi thông báo
+                    Call<Noti> call = notificationApi.sendNotification(notice);
+                    call.enqueue(new Callback<Noti>() {
+                        @Override
+                        public void onResponse(Call<Noti> call, Response<Noti> response) {
+                            if (response.isSuccessful()) {
+                                //  displayNotification(notice.getTitle(),notice.getBody());
+                                // Xử lý khi gửi thông báo thành công
+                                Toast.makeText(requireContext(), "Thông báo đã được gửi", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Xử lý khi gặp lỗi trong quá trình gửi thông báo
+                                Toast.makeText(requireContext(), "Lỗi khi gửi thông báo", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                    @Override
-                    public void onFailure(Call<Noti> call, Throwable t) {
-                        Log.d("hello",t.getMessage());
-                        // Xử lý khi gặp lỗi trong quá trình gọi API
-                        Toast.makeText(requireContext(), "Lỗi khi gọi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                        @Override
+                        public void onFailure(Call<Noti> call, Throwable t) {
+                            Log.d("hello",t.getMessage());
+                            // Xử lý khi gặp lỗi trong quá trình gọi API
+                            Toast.makeText(requireContext(), "Lỗi khi gọi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Xử lý khi gặp lỗi trong quá trình đọc cơ sở dữ liệu
-                Toast.makeText(requireContext(), "Lỗi khi đọc cơ sở dữ liệu", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Xử lý khi gặp lỗi trong quá trình đọc cơ sở dữ liệu
+                    Toast.makeText(requireContext(), "Lỗi khi đọc cơ sở dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            // Xử lý ngoại lệ ở đây
+            Log.d("Exception", "Exception: " + e.getMessage());
+        }
     }
+
 
     private void displayNotification(String title, String message) {
         // Tạo intent để mở MainActivity khi người dùng nhấn vào thông báo
@@ -237,7 +259,6 @@ public class FireAlarmFragment extends Fragment {
                 .setPriority(NotificationCompat.PRIORITY_HIGH) // Đặt độ ưu tiên cao
                 .setCategory(NotificationCompat.CATEGORY_CALL) // Đặt loại thông báo là cuộc gọi
                 .setFullScreenIntent(pendingIntent, true); // Sử dụng intent để mở khi nhấn vào thông báo
-
         // Đặt âm thanh cho thông báo (có thể thay đổi theo nhu cầu của bạn)
         builder.setSound(android.provider.Settings.System.DEFAULT_RINGTONE_URI);
 
