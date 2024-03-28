@@ -1,6 +1,5 @@
 package com.ndm.da_test.FCM;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -25,49 +24,36 @@ public class MessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
 
-    /*    RemoteMessage.Notification notification = message.getNotification();
-        if(notification == null)
-        {
+        Map<String, String> data = message.getData();
+        if (data == null) {
             return;
         }
-        String title = notification.getTitle();
-        String body = notification.getBody(); */
-
-
-        Map<String , String>  stringMap = message.getData();
-        if (stringMap == null)
-        {
-            return;
-        }
-        String title = stringMap.get("key_1");
-        String body = stringMap.get("key_2");
-        sendNotification(title,body);
-
+        String title = data.get("title");
+        String body = data.get("body");
+        sendNotification(title, body);
     }
 
-    private void sendNotification(String title, String body){
+    private void sendNotification(String title, String body) {
         Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder notificationBuidler = new NotificationCompat.Builder(this, MyApplication.CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, MyApplication.CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        Notification notification = notificationBuidler.build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if(notificationManager != null)
-        {
-            notificationManager.notify(1,notification);
+        if (notificationManager != null) {
+            notificationManager.notify(1, notificationBuilder.build());
         }
-
     }
 
     @Override
     public void onNewToken(@NonNull String token) {
-        Log.d("abc",token);
+        Log.d("New Token", token);
         super.onNewToken(token);
     }
 }
+
