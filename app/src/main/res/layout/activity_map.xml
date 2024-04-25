@@ -29,7 +29,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Hello"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="14sp"/>
 
@@ -68,6 +68,20 @@
         android:layout_centerHorizontal="true"
         android:background="@color/white"
         android:layout_marginTop="120dp"/>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container2"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="260dp" />
 
     <Button
         android:id="@+id/btn_thongbao"

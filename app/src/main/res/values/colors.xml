@@ -5,4 +5,7 @@
     <color name="yellow">#FFEB3B</color>
     <color name="orange">#FFA500</color>
     <color name="orange2">#FF4500</color>
+    <color name="red">#FF0000</color>
+    <color name="teal_700">#00796B</color>
+    <color name="orange3">#FF8800</color>
 </resources>

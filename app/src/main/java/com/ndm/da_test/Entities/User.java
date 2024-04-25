@@ -6,21 +6,19 @@ public class User {
     private String Email;
     private String FullName;
     private String Token;
+    private String uri;
 
-    public User(String id,String email, String fullName, String token) {
+    public User(String id,String Fullname, String email, String Uri) {
         Id = id;
         Email = email;
-        FullName = fullName;
-        Token = token;
+        FullName = Fullname;
+        uri = Uri;
     }
 
-    public User(String id, String email)
-    {
-        Id = id;
-        Email = email;
-    }
     public User() {
     }
+
+
 
     public String getId() {
         return Id;
@@ -52,5 +50,13 @@ public class User {
 
     public void setPassWord(String passWord) {
         Token = passWord;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

@@ -2,7 +2,6 @@ plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
 }
-
 android {
     namespace = "com.ndm.da_test"
     compileSdk = 34
@@ -38,6 +37,7 @@ android {
 dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core:1.6.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.annotation:annotation:1.7.1")
@@ -51,8 +51,12 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation("com.firebaseui:firebase-ui-database:7.1.1")
 
+    //storage
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+
     //load ảnh bằng url
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.0")
 
     //Circle image
     implementation("de.hdodenhof:circleimageview:3.1.0")
@@ -72,6 +76,15 @@ dependencies {
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.work:work-runtime:2.9.0")
+
+    //Qr
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
+
+
+
 
 
 

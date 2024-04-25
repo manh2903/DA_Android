@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#238c23"/> <!-- Màu nền của khung tin nhắn -->
+
+    <corners android:radius="20dp"/> <!-- Bán kính của góc bo tròn -->
+
+
+</shape>

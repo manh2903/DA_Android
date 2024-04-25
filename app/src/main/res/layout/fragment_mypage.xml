@@ -2,29 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    android:gravity="center"
-    android:orientation="vertical">
-    
+    android:orientation="vertical"
+    android:padding="10dp">
 
-    <EditText
-        android:id="@+id/edt_full_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Full name"
-        android:layout_marginTop="30dp"
-        android:padding="10dp"/>
-    <TextView
-        android:id="@+id/edt_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"/>
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_user2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/home_background" />
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/edt_full_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@null"
+                android:text="Nguyen Duc MAnh" />
+
+            <TextView
+                android:id="@+id/txt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="manh@gmail.com" />
+
+            <ImageView
+                android:id="@+id/img_qr"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/baseline_qr_code_scanner_24"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_list_friend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_friend"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_add_friend"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_friend"/>
+        </LinearLayout>
+    </LinearLayout>
+
     <Button
         android:id="@+id/btn_update_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UPDATE PROFILE"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="10dp"
+        android:text="UPDATE PROFILE" />
+
+
 </LinearLayout>

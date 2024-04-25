@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/orange">
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Chính sách bảo mật"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/introduction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Nội dung thoả thuận"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="1. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Để nhận được các thông báo cháy khẩn cấp gần bạn hoặc các thông báo, thông tin liên quan thì người dùng cần phải đồng ý với tất cả các chính sách và điều khoản sử dụng này. Bạn có thể chấp nhận các chính sách và điêu khoản sử dụng này bằng cách truy cập và/hoặc sử dụng các dịch vụ của chúng tôi,
+Bạn hiểu và đồng ý rằng việc truy cập và/ hoặc sử dụng các dịch vụ là sự chấp thuận các chính sách và điều khoản sử dụng này kể từ thời điểm đó trở đi. Người dùng không đồng ý với bất kỳ điều khoản nào của thỏa thuận này thì người dùng cần xoá tài khoản để huỷ bỏ việc đồng ý thỏa thuận."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="2. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chúng tôi có quyền được sửa đổi, bổ sung bất kỳ và toàn bộ nội dung của thoả thuận này tại bất kỳ thời điểm nào mà không cần báo trước hay cần có được sự đồng ý trước của người dùng."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Tài khoản"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="1. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Để sử dụng các chức năng thực hiện thông báo cháy và nhận thông báo cháy khẩn cấp trong phạm vi khoảng 100m gân Người dùng của ứng dụng, Người dùng cân phải đông ý thỏa thuận này và phải đăng ký tài khoản bằng số điện thoại. Đồng thời phải cam kết cung cấp cho chúng tôi thông tin số điện thoại chính xác. Chúng tôi không chịu trách nhiệm trong trường hợp các thông tin Người dùng cung cấp sai gây ảnh hưởng hoặc hạn chế quyền lợi của Người dùng."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="2. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Để nhận được thông báo khẩn cấp khi có đám cháy trong phạm vi khoảng 100m,
+Người dùng cần phải luôn cho phép bật chức năng truy cập vị trí và nhận thông báo từ ứng dụng Fire alarm. Nếu không cài đặt ở chế độ luôn cho phép thì sẽ không nhận được thông báo khẩn này."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="3. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Người dùng sẽ chịu mọi trách nhiệm, kể cả trách nhiệm pháp lý và trước pháp luật về mọi hoạt động, hành vi được thực hiện thông qua tài khoản trong quá trình sử dụng ứng dụng. Trường hợp có bất kỳ tổn thất, thiệt hại nào phát sinh do Người dùng bị lộ thông tin tài khoản, Chúng tôi sẽ không có trách nhiệm bồi thường cho Người dùng."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Hành vi vi phạm"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="1. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Người dùng có quyền sử dụng ứng dụng, tuy nhiên việc sử dụng đó không bao gồm các hành vi sau đây:"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="2. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Có hành vi báo cháy giả. (Việc thông báo cháy giả là vi phạm pháp luật và sẽ bị phạt theo quy định của pháp luật)"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="3. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Có hành vi báo cháy giả. (Việc thông báo cháy giả là vi phạm pháp luật và sẽ bị phạt theo quy định của pháp luật)"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Thu thập và sử dụng thông tin"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="1. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thu thập số điện thoại và xác minh danh tính:"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="2. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Để đảm bảo tính bảo mật và xác minh danh tinh cua người dùng, ứng dụng thu thập sô điện thoại và sử dụng nó để gửi mã OTP"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="3. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thu thập thông tin vị trí thông qua GPS:"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="4. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ứng dụng sử dụng dịch vụ GPS trên thiêt bị của bạn để xác định vị trí đám cháy, giúp người dùng thực hiện việc báo cháy đúng vị trí và thuận tiện hơn. Hệ thống cũng sử dụng thông tin vị trí của bạn để xác định liệu bạn có ở gần khu vực đám cháy trong phạm vi khoảng 100m hay không. Điều này giúp ứng dụng quyết định cách gửi thông tin báo cháy khẩn cấp một cách hiệu quả nhất trong trường hợp bạn ở gần sự cố đám cháy."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="5. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ứng dụng sử dụng dịch vụ GPS trên thiêt bị của bạn để xác định vị trí đám cháy, giúp người dùng thực hiện việc báo cháy đúng vị trí và thuận tiện hơn. Hệ thống cũng sử dụng thông tin vị trí của bạn để xác định liệu bạn có ở gần khu vực đám cháy trong phạm vi khoảng 100m hay không. Điều này giúp ứng dụng quyết định cách gửi thông tin báo cháy khẩn cấp một cách hiệu quả nhất trong trường hợp bạn ở gần sự cố đám cháy."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="6. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chúng tôi cam kết bảo vệ thông tin cá nhân của bạn và tuân thủ các quy định về bảo vệ dữ liệu. Tuy nhiên, chúng tôi có quyền và nghĩa vụ cung cấp thông tin của bạn cho cơ quan nhà nước có thẩm quyền, như Cơ quan canh sát PCCC, khi được yêu câu theo quy định của pháp luật Việt Nam. Điêu này nhăm đảm bảo tuân thủ và tuân theo các quy định về an toàn và bảo vệ cộng đồng mà chúng tôi phải tuân thủ."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Quyền riêng tư"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Người dùng hoàn toàn có quyền kiểm soát thông tin cá nhân cúa mình trong ứng dụng và có quyền xóa tài khoản bất cứ lúc nào nếu người dùng muốn."
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Bảo mật"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Chúng tôi luôn coi trọng bảo mật thông tin của
+Người dùng. Chúng tôi sử dụng công nghệ mã hóa để bảo vệ dữ liệu cá nhân của Người dùng và giảm thiểu rủi ro từ việc truy cập trái phép.
+Các biện pháp bảo mật này đảm bảo rằng thông tin cá nhân của Người dùng được bảo vệ khỏi sự xâm nhập và lợi dụng."
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Miễn trừ trách nhiệm"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="1. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vì nhiều lý do GPS có thể xác định không chính xác 100% vị trí và địa chỉ của bạn.
+Chúng tôi sẽ không chịu trách nhiệm trong việc GPS xác định sai vị trí này."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="2. "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ứng dụng Fire Alarm chỉ hỗ trợ việc thông báo cháy và cung cấp hướng dẫn phòng cháy chữa cháy cho người dùng. Chúng tôi không chịu bất kì trách nhiệm nào đối với thiệt hại về con người và tài sản nếu hoả hoạn xảy ra trong quá trình người dùng đăng ký sử dụng ứng dụng cho dù là ứng dụng gặp lỗi và người dùng không thế nhận hoặc thông báo chính xác."
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Thông tin cập nhật"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chính sách bảo mật và điều khoản sử dụng của chúng tôi sẽ thường xuyên được cập nhật và điều chỉnh để phù hợp với các quy định hiện hành và để bảo vệ quyền lợi của người dùng. Vì vậy, xin vui lòng kiểm tra định kỳ nội dung của chúng để đảm bảo bạn luôn nắm được thông tin mới nhất và có thể sử dụng dịch vụ của chúng tôi một cách an tâm."
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Liên hệ chúng tôi"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nếu bạn có bất kỳ câu hỏi hoặc phản hồi nào về chính sách bảo mật và điều khoản sử dụng ứng dụng, vui lòng liên hệ với chúng tôi qua địa chỉ email hoặc số điện thoại được cung cấp trong phần thông tin ứng dụng."
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

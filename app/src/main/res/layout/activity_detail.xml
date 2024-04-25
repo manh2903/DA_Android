@@ -30,16 +30,17 @@
             android:layout_width="55dp"
             android:layout_height="?attr/actionBarSize">
             <ImageView
-                android:src="@drawable/share_icon"
+                android:src="@drawable/ic_share"
                 android:layout_gravity="center"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
           />
         </FrameLayout>
     </androidx.appcompat.widget.Toolbar>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hello"
-        android:textSize="100sp"/>
+
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

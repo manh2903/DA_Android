@@ -24,6 +24,11 @@
 
     </LinearLayout>
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_user"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/sharingan"/>
 
     <TextView
         android:id="@+id/tv_name"

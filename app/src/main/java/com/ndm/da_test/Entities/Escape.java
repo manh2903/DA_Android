@@ -1,17 +1,24 @@
 package com.ndm.da_test.Entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Escape implements Serializable {
 
     private String name;
 
-    public Escape(String name) {
+    private String source;
+
+
+    public Escape(String name, String source) {
         this.name = name;
+        this.source = source;
     }
 
     public Escape() {
     }
+
+
 
     public String getName() {
         return name;
@@ -20,5 +27,14 @@ public class Escape implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
 }
 

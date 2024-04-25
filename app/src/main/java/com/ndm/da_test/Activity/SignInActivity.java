@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,7 +26,7 @@ import com.ndm.da_test.R;
 
 public class SignInActivity extends AppCompatActivity {
     private LinearLayout layoutSignUp;
-    private EditText edtEmail, edtPassword;
+    TextInputEditText txtEmail,  txtPassEdt;
     private Button btnSignIn;
     private ProgressDialog progressDialog;
 
@@ -41,8 +42,11 @@ public class SignInActivity extends AppCompatActivity {
     {
 
         layoutSignUp = findViewById(R.id.layout_sign_up);
-        edtEmail = findViewById(R.id.edt_email);
-        edtPassword = findViewById(R.id.edt_password);
+
+
+        txtEmail = findViewById(R.id.txt_emailedt);
+        txtPassEdt = findViewById(R.id.txt_passEdt);
+
         btnSignIn = findViewById(R.id.btn_sign_in);
         progressDialog = new ProgressDialog(this);
 
@@ -65,8 +69,15 @@ public class SignInActivity extends AppCompatActivity {
     }
     private void onClickSignIn(){
 
-        String strEmail = edtEmail.getText().toString().trim();
-        String strPassword = edtPassword.getText().toString().trim();
+        String strEmail = txtEmail.getText().toString().trim();
+        String strPassword = txtPassEdt.getText().toString().trim();
+
+        if (strEmail.isEmpty() || strPassword.isEmpty()) {
+            // Hiển thị thông báo yêu cầu nhập đầy đủ thông tin
+            Toast.makeText(SignInActivity.this, "Vui lòng nhập đầy đủ email và mật khẩu", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         progressDialog.show();
         auth.signInWithEmailAndPassword(strEmail, strPassword)

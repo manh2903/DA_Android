@@ -2,21 +2,29 @@ package com.ndm.da_test.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.TextView;
+
 
 import com.ndm.da_test.Entities.Escape;
 import com.ndm.da_test.Entities.Skill;
 import com.ndm.da_test.R;
 
+import java.util.List;
+
 public class DetailActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView tv_title;
+    private WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +38,28 @@ public class DetailActivity extends AppCompatActivity {
             Skill skill = (Skill) bundle.getSerializable("Skill");
 
             if (escape != null) {
+
                 tv_title.setText(escape.getName());
+                String source = escape.getSource();
+
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setDomStorageEnabled(true); // Bật bộ nhớ lưu trữ tạm thời cho WebView
+                // Tải trang web từ URL cụ thể
+                webView.loadUrl(source);
+
             }
 
             if (skill != null) {
                 tv_title.setText(skill.getName());
+                String source = skill.getSource();
+
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setDomStorageEnabled(true); // Bật bộ nhớ lưu trữ tạm thời cho WebView
+                // Tải trang web từ URL cụ thể
+                webView.loadUrl(source);
+
             }
         }
 
@@ -51,6 +76,9 @@ public class DetailActivity extends AppCompatActivity {
         tv_title.setSingleLine(false); // Cho phép xuống dòng
         tv_title.setMaxLines(2); // Số dòng tối đa
         tv_title.setEllipsize(TextUtils.TruncateAt.END);
+        webView = findViewById(R.id.webview);
+
+
     }
 
     @Override

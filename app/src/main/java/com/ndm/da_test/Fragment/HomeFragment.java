@@ -1,6 +1,8 @@
 package com.ndm.da_test.Fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -27,6 +30,8 @@ public class HomeFragment extends Fragment {
 
     private View view;
     private FrameLayout fragmentContainer;
+
+    private static final int CALL_PERMISSION_REQUEST_CODE = 100; // Khai báo mã yêu cầu quyền gọi điện thoại
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -78,9 +83,18 @@ public class HomeFragment extends Fragment {
     }
 
     private void makePhoneCall(String phoneNumber) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + phoneNumber));
-        startActivity(intent);
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:0375278021"));
+
+        // Kiểm tra quyền gọi điện thoại trước khi thực hiện cuộc gọi
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // Yêu cầu quyền gọi điện thoại nếu chưa được cấp
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQUEST_CODE);
+            return;
+        }
+
+        // Thực hiện cuộc gọi
+        startActivity(callIntent);
     }
 }
 

@@ -4,25 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/screen_login_out"
     android:orientation="vertical"
     android:padding="40dp"
-    android:background="@drawable/screen_login_out"
     tools:context=".Activity.SignUpActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hello,"
-        android:textSize="25sp"
         android:textColor="@color/white"
-        android:textStyle="bold"/>
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign Up!"
-        android:textSize="50dp"
         android:textColor="@color/white"
-        android:textStyle="bold"/>
+        android:textSize="50dp"
+        android:textStyle="bold" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,30 +33,99 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-    <EditText
-        android:id="@+id/edt_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:imeOptions="actionNext"
-        android:maxLength="100"
-        android:textColor="@color/black"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_emaillayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:startIconDrawable="@drawable/baseline_email_24"
+            app:startIconTint="@color/teal_700"
+            android:hint="Email"
+            >
 
-    <EditText
-        android:id="@+id/edt_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:imeOptions="actionDone"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"/>
-    <Button
-        android:id="@+id/btn_sign_up"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:layout_marginTop="30dp"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_emailedt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_usernamelayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Họ và tên"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:startIconDrawable="@drawable/baseline_person_24"
+            app:startIconTint="@color/teal_700">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_usernameedt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_passlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:counterEnabled="true"
+            app:counterMaxLength="20"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/teal_700"
+            app:helperText=""
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="@color/teal_700"
+            app:startIconDrawable="@drawable/baseline_lock_24"
+            app:startIconTint="@color/teal_700">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_passEdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_cfpasslayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Xác nhận mật khẩu"
+            android:inputType="textPassword"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:counterEnabled="true"
+            app:counterMaxLength="20"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/teal_700"
+            app:helperText=""
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="@color/teal_700"
+            app:startIconDrawable="@drawable/baseline_lock_24"
+            app:startIconTint="@color/teal_700">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_cfpassEdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Sign Up" />
+
+
     </LinearLayout>
 </LinearLayout>

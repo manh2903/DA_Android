@@ -4,5 +4,5 @@
 
     <corners android:radius="20dp"/> <!-- Bán kính của góc bo tròn -->
 
-    <solid android:color="#90FFFFFF"/>
+
 </shape>

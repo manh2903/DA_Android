@@ -7,14 +7,37 @@ public class Noti {
     private String body;
     private List<String> token;
 
-    public Noti(String title, String body, List<String> registrationTokens) {
+    private double longitude;
+    private double latitude;
+
+    public Noti(String title, String body, List<String> token, double longitude, double latitude) {
         this.title = title;
         this.body = body;
-        this.token = registrationTokens;
+        this.token = token;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public Noti() {
     }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+
 
     public String getTitle() {
         return title;

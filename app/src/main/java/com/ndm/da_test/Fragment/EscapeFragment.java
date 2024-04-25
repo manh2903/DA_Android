@@ -1,5 +1,6 @@
 package com.ndm.da_test.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EscapeFragment extends Fragment  {
+
+    private ProgressDialog progressDialog;
     private RecyclerView recyclerView;
     private View view;
     private EscapeAdapter mEscapeAdapter;
@@ -46,6 +49,8 @@ public class EscapeFragment extends Fragment  {
     }
 
     private void initUi(){
+
+        progressDialog = new ProgressDialog(getContext());
         recyclerView = view.findViewById(R.id.rcv_escape);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -57,7 +62,8 @@ public class EscapeFragment extends Fragment  {
         mEscapeAdapter = new EscapeAdapter(mEscapeList, new IClickItemEscapeListener() {
             @Override
             public void onItemClick(Escape escape) {
-              onClickGoToDetail(escape);
+                progressDialog.show();
+                onClickGoToDetail(escape);
             }
         });
 
@@ -67,18 +73,27 @@ public class EscapeFragment extends Fragment  {
 
     private void getListRealTimedb() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("action_ascape");
+        DatabaseReference myRef = database.getReference("action_ascape"); // Thay đổi tham chiếu cơ sở dữ liệu tới "action_ascape"
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("EscapeFragment", "onDataChange() called");
                 mEscapeList.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Escape escape = dataSnapshot.getValue(Escape.class);
+                    // Lấy giá trị của tên và danh sách hình ảnh từ dataSnapshot
+                    String name = dataSnapshot.child("name").getValue(String.class);
+                    String source = dataSnapshot.child("source").getValue(String.class);
+
+
+                    // Tạo một đối tượng Escape với các giá trị đã lấy
+                    Escape escape = new Escape(name,source);
+                    // Thêm đối tượng Escape vào danh sách
                     mEscapeList.add(escape);
                 }
+                // Cập nhật adapter sau khi đã thêm đối tượng Escape vào danh sách
                 mEscapeAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("EscapeFragment", "onCancelled() called");
@@ -93,6 +108,16 @@ public class EscapeFragment extends Fragment  {
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Đảm bảo rằng progressDialog không hiển thị khi Fragment được tái hiện
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
 
 }
 

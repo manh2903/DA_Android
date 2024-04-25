@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/layout_delete_fr_background">
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/txt_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bạn có chắc chắn muốn xóa Hiếu khỏi danh sách bạn bè? Việc xóa một người bạn trong danh sách sẽ làm vô hiệu hóa quyền truy cập chia sẻ vị trí và cả hai bạn sẽ không thể nhìn thấy vị trí của nhau nữa."
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_huy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:text="Hủy" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:text="Xóa bạn" />
+
+    </LinearLayout>
+
+</LinearLayout>

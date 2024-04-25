@@ -1,5 +1,6 @@
 package com.ndm.da_test.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class SkillFragment extends Fragment   {
     private View view;
     private SkillAdapter mSkillAdapter;
     private List<Skill> mSkillList;
+    private ProgressDialog progressDialog;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -43,12 +45,14 @@ public class SkillFragment extends Fragment   {
 
         initUi();
         getListRealTimedb();
-
         return view;
     }
 
     private void initUi(){
+
+        progressDialog = new ProgressDialog(getContext());
         recyclerView = view.findViewById(R.id.rcv_skill);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -59,12 +63,15 @@ public class SkillFragment extends Fragment   {
         mSkillAdapter = new SkillAdapter(mSkillList, new IClickItemSkillListener() {
             @Override
             public void onItemClick(Skill skill) {
+                progressDialog.show();
                 onClickGoToDetail(skill);
             }
         });
 
 
         recyclerView.setAdapter(mSkillAdapter);
+
+
     }
 
     private void getListRealTimedb() {
@@ -73,17 +80,22 @@ public class SkillFragment extends Fragment   {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("EscapeFragment", "onDataChange() called");
+                Log.d("SkillFragment", "onDataChange() called");
                 mSkillList.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Skill skill = dataSnapshot.getValue(Skill.class);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    // Lấy giá trị của tên và danh sách hình ảnh từ dataSnapshot
+                    String name = dataSnapshot.child("name").getValue(String.class);
+                    String source = dataSnapshot.child("source").getValue(String.class);
+
+                    // Tạo một đối tượng Escape với các giá trị đã lấy
+                    Skill skill = new Skill(name, source);
                     mSkillList.add(skill);
                 }
                 mSkillAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("EscapeFragment", "onCancelled() called");
+                Log.d("SkillFragment", "onCancelled() called");
             }
         });
     }
@@ -94,5 +106,14 @@ public class SkillFragment extends Fragment   {
         bundle.putSerializable("Skill", skill);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Đảm bảo rằng progressDialog không hiển thị khi Fragment được tái hiện
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }
