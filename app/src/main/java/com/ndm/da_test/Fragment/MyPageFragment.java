@@ -7,11 +7,12 @@ import static android.app.Activity.RESULT_OK;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,15 +48,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 
 import com.ndm.da_test.Activity.MainActivity;
 import com.ndm.da_test.Activity.QrCodeActivity;
 import com.ndm.da_test.BottomSheetDialog.AddUsers;
 import com.ndm.da_test.BottomSheetDialog.ListFriend;
+import com.ndm.da_test.DialogFragment.AddByQrDialog;
 import com.ndm.da_test.R;
 
 import java.io.IOException;
@@ -64,12 +62,13 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyPageFragment extends Fragment {
+public class MyPageFragment extends Fragment  {
     public static final int MY_REQUEST_CODE = 0;
+    private static final int REQUEST_CODE_SCAN_ACTIVITY = 100;
     private View mview;
-    private EditText edtFullName;
+    private EditText edtFullName,edtFeedBack;
     private TextView txtEmail;
-    private Button btnUpdateProfile;
+    private Button btnUpdateProfile,btnFeedBack;
     private MainActivity mainActivity;
     private ProgressDialog progressDialog;
     private CircleImageView imgUser,imgListFriend, imgAddFriend;
@@ -77,8 +76,9 @@ public class MyPageFragment extends Fragment {
 
     private ImageView img_Qr;
     private Uri uri;
-
     private String userId ,fullName;
+
+    private boolean hasFeedbackText = false;
 
     @Nullable
     @Override
@@ -104,6 +104,9 @@ public class MyPageFragment extends Fragment {
         btnUpdateProfile = mview.findViewById(R.id.btn_update_profile);
         storageRef = FirebaseStorage.getInstance().getReference();
         progressDialog = new ProgressDialog(getContext());
+
+        edtFeedBack = mview.findViewById(R.id.edt_feedback);
+        btnFeedBack = mview.findViewById(R.id.btn_feedback);
 
     }
 
@@ -141,9 +144,46 @@ public class MyPageFragment extends Fragment {
                 Intent intent = new Intent(getContext(), QrCodeActivity.class);
                 // Đính kèm thông tin mã QR vào Intent
                 intent.putExtra("qrCodeData", userId);
-                intent.putExtra("fullname",fullName);
+              //  intent.putExtra("fullname",fullName);
+              //  Log.d("fullname",fullName);
                 // Chuyển sang QRCodeActivity
                 startActivity(intent);
+            }
+        });
+
+        edtFeedBack.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                hasFeedbackText = s.toString().trim().length() > 0;
+                btnFeedBack.setEnabled(hasFeedbackText);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        btnFeedBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasFeedbackText) {
+                    String feedback = edtFeedBack.getText().toString().trim();
+                    DatabaseReference feedbackRef = FirebaseDatabase.getInstance().getReference("feedback");
+                    String feedbackId = feedbackRef.push().getKey();
+                    if (feedbackId != null) {
+                        DatabaseReference newFeedbackRef = feedbackRef.child(feedbackId);
+                        newFeedbackRef.child("userId").setValue(userId);
+                        newFeedbackRef.child("feedback").setValue(feedback);
+                        edtFeedBack.setText("");
+                        hasFeedbackText = false;
+                        btnFeedBack.setEnabled(false);
+                        Toast.makeText(getActivity(), "Feedback sent successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Failed to send feedback", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
@@ -330,8 +370,6 @@ public class MyPageFragment extends Fragment {
 
 
 
-
-
     private void clickOpenAddUser() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         AddUsers bottomSheetDialog = new AddUsers(getContext(), fragmentManager);
@@ -358,5 +396,7 @@ public class MyPageFragment extends Fragment {
             );
         }
     }
+
+
 
 }

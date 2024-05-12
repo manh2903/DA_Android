@@ -17,6 +17,7 @@ import android.os.IBinder;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -27,17 +28,25 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.ndm.da_test.Activity.MainActivity;
+import com.ndm.da_test.Entities.TokenLocation;
 import com.ndm.da_test.R;
 
 public class LocationTrackingService extends Service {
 
+    private static final String TAG = "LocationTrackingService";
     private static final String CHANNEL_ID = "LocationTrackingService";
-    private static final int NOTIFICATION_ID = 123;
-
     private String token;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
+    private DatabaseReference databaseReference;
 
     @Override
     public void onCreate() {
@@ -54,24 +63,72 @@ public class LocationTrackingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && intent.hasExtra("TOKEN")) {
-            token = intent.getStringExtra("TOKEN");
-            Log.d("FCMToken Tracking", "Token received in LocationTrackingService: " + token); // Log token to verify
-        }
 
-        // Tạo thông báo
+        Log.d(TAG, "onStartCommand: Service started");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("tokens");
 
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()) {
+                    token = task.getResult();
+                    Log.d(TAG, "Token: " + token);
+                } else {
+                    Exception exception = task.getException();
+                    if (exception != null) {
+
+                        exception.printStackTrace();
+                    }
+                }
+            }
+        });
 
         // Bắt đầu cập nhật vị trí
         startLocationUpdates();
+       // createNotificationChannel();
+       // Notification notification = createNotification(0, 0); // Tham số 0, 0 chỉ là giá trị mẫu
+       // startForeground(1, notification);
+       // stopForeground(true);
 
         return START_STICKY;
     }
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "LocationTrackingService",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+
+    private Notification createNotification(double latitude, double longitude) {
+        // Tạo intent để mở MainActivity khi người dùng nhấn vào notification
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+
+        // Xây dựng nội dung cho notification
+        String contentText = "Latitude: " + latitude + ", Longitude: " + longitude;
+
+        // Xây dựng notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setAutoCancel(true)
+                .setContentTitle("Location Tracking Service")
+                .setContentText(contentText)
+                .setContentIntent(pendingIntent);
+
+        return builder.build();
+    }
+
+
     private void startLocationUpdates() {
         LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(30000); // Cập nhật vị trí mỗi 30 giây
-        locationRequest.setFastestInterval(3000);
+        locationRequest.setInterval(10000); // Cập nhật vị trí mỗi 30 giây
+        locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -98,54 +155,34 @@ public class LocationTrackingService extends Service {
                 super.onLocationResult(locationResult);
                 if (locationResult != null) {
                     for (android.location.Location location : locationResult.getLocations()) {
-                        saveLocationToDatabase(location.getLatitude(), location.getLongitude());
-                      //  updateNotification(location.getLatitude(), location.getLongitude());
+                        Log.d(TAG, "New location received: " + location.getLatitude() + ", " + location.getLongitude());
+                        updateLocationInDatabase(location.getLatitude(), location.getLongitude());
+                        createNotification(location.getLatitude(), location.getLongitude());
                     }
                 }
             }
         };
     }
 
-    private void saveLocationToDatabase(double latitude, double longitude) {
-        MainActivity.TokenManager tokenManager = new MainActivity.TokenManager();
-        tokenManager.saveTokenAndLocation(token, latitude, longitude);
-    }
-
-    private void createNotification() {
-        // Tạo kênh thông báo (chỉ cần thực hiện trên Android 8.0+)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Location Tracking Service", NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription("Foreground service for location tracking");
-            channel.enableLights(false);
-            channel.enableVibration(false);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+    private void updateLocationInDatabase(double latitude, double longitude) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String userId = user.getUid();
+            if (userId != null && !userId.isEmpty() && token != null && !token.isEmpty()) {
+                Log.d(TAG, "Updating location for user: " + userId);
+                TokenLocation tokenLocation = new TokenLocation(token, latitude, longitude);
+                databaseReference.child(userId).child(token).setValue(tokenLocation)
+                        .addOnSuccessListener(aVoid -> Log.d(TAG, "Location updated successfully"))
+                        .addOnFailureListener(e -> Log.e(TAG, "Failed to update location", e));
+            } else {
+                Log.w(TAG, "User ID or token is null or empty");
+            }
+        } else {
+            Log.w(TAG, "User is not signed in");
         }
-
-        // Tạo thông báo
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Location Tracking Service")
-                .setContentText("Tracking your location...")
-                .setSmallIcon(R.drawable.ic_location)
-                .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_IMMUTABLE))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setOngoing(true);
-
-        startForeground(NOTIFICATION_ID, notificationBuilder.build());
     }
 
-    private void updateNotification(double latitude , double longitude) {
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Location Tracking Service")
-                .setContentText("Latitude: " + latitude + " Longitude:" + longitude)
-                .setSmallIcon(R.drawable.ic_location)
-                .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_IMMUTABLE))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setOngoing(true);
 
-        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
-    }
 
     @Override
     public void onDestroy() {

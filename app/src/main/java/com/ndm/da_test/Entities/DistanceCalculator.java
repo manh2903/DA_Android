@@ -1,7 +1,7 @@
 package com.ndm.da_test.Entities;
 
 public class DistanceCalculator {
-    private final int EARTH_RADIUS = 6371;
+    private final int EARTH_RADIUS = 6371000;
 
     public float calculateDistance(double startLat, double startLng, double endLat, double endLng) {
         // Chuyển đổi độ sang radian

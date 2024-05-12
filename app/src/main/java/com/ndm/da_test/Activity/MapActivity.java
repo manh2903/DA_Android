@@ -12,12 +12,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -55,10 +49,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ndm.da_test.Entities.Noti;
-import com.ndm.da_test.Entities.User;
-import com.ndm.da_test.Fragment.FireAlarmFragment2;
+import com.ndm.da_test.DialogFragment.FireAlarmDialogFragment2;
 import com.ndm.da_test.R;
+import com.ndm.da_test.Utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,7 +62,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private FrameLayout notification;
-    public GoogleMap gMap;
+    public GoogleMap gMap,gMap2,gMapMyLocation;
     private Geocoder geocoder;
     public FusedLocationProviderClient fusedLocationClient;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -87,6 +80,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private double selectedLongitude;
     private double selectedLatitude;
     private String selectedAddress;
+
 
 
     @Override
@@ -119,9 +113,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         initListener();
 
-
-
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -131,6 +124,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void initUi() {
         toolbar = findViewById(R.id.toolbar);
@@ -153,9 +147,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         btn_myposition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gMap.clear();
                 getCurrentLocation();
-                showFire();
             }
         });
 
@@ -192,8 +184,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 // Khởi tạo FragmentManager và FireAlarmFragment
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FireAlarmFragment2 fireAlarmFragment = new FireAlarmFragment2();
+
+                FireAlarmDialogFragment2 fireAlarmDialogFragment = new FireAlarmDialogFragment2();
 
                 // Tạo Bundle để truyền dữ liệu
                 Bundle bundle = new Bundle();
@@ -203,17 +195,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 bundle.putString("address", selectedAddress);
 
                 // Truyền Bundle vào FireAlarmFragment
-                fireAlarmFragment.setArguments(bundle);
+                fireAlarmDialogFragment.setArguments(bundle);
 
                 // Mở FireAlarmFragment bằng FragmentTransaction
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                        .add(fragmentContainer.getId(), fireAlarmFragment, "fireAlarmFragment")
-                        .addToBackStack(null)
-                        .commit();
+//                fragmentManager.beginTransaction()
+//                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+//                        .add(fragmentContainer.getId(), fireAlarmDialogFragment, "fireAlarmFragment")
+//                        .addToBackStack(null)
+//                        .commit();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fireAlarmDialogFragment.show(fragmentManager, "fireAlarmDialogFragment");
+
             }
         });
-
     }
 
     private void handleLocationPermission() {
@@ -249,7 +243,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(locationLatLng)
                         .icon(icon)
-                        .title("Selected Location");
+                        .title("Địa chỉ có cháy");
 
                 Marker marker = gMap.addMarker(markerOptions);
 
@@ -275,6 +269,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         gMap = googleMap;
 
+
         check();
 
         showFire();
@@ -285,9 +280,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onMapClick(LatLng latLng) {
                 // Xóa tất cả các marker trước đó
+
                 gMap.clear();
                 showFire();
+
                 showFriendsOnMap();
+
                 // Thêm marker mới tại vị trí được click
                 addMarker(latLng);
                 displayAddress(latLng);
@@ -297,12 +295,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void addMarker(LatLng latLng) {
+
         // Tạo marker mới
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Selected Location");
         // Thêm marker vào bản đồ
         gMap.addMarker(markerOptions);
         // Di chuyển camera đến vị trí được chọn
         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+
+
+
     }
 
     private void displayAddress(LatLng latLng) {
@@ -394,6 +396,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
                 addressAdapter.notifyDataSetChanged();
                 Address firstAddress = addresses.get(0);
+
                 selectedAddress = firstAddress.getAddressLine(0);
                 selectedLatitude = firstAddress.getLatitude();
                 selectedLongitude = firstAddress.getLongitude();
@@ -410,27 +413,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void showFire() {
-        DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference("notifications");
+
+        Log.d("utils", Utils.getUserId());
+        String UserID = Utils.getUserId();
+        DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference("notifications_receiver").child(UserID);
         notificationsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     // Đọc dữ liệu từ mỗi thông báo
-                    Noti notification = snapshot.getValue(Noti.class);
-                    if (notification != null) {
-                        // Lấy kinh độ và vĩ độ từ thông báo
-                        double longitude = notification.getLongitude();
-                        double latitude = notification.getLatitude();
+                    if (snapshot != null) {
+                        String body = (String) snapshot.child("body").getValue();
+                        double longitude = (double) snapshot.child("longitude").getValue();
+                        double latitude = (double) snapshot.child("latitude").getValue();
                         // Tạo LatLng từ kinh độ và vĩ độ
                         LatLng locationLatLng = new LatLng(latitude, longitude);
                         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_fire1);
+
 
                         // Thêm marker cho vị trí này trên bản đồ
                         MarkerOptions markerOptions = new MarkerOptions()
                                 .position(locationLatLng)
                                 .icon(icon)
-                                .title(notification.getBody());
-
+                                .title(body);
                         gMap.addMarker(markerOptions);
                     }
                 }
@@ -442,6 +447,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
     }
+
 
     private void showFriendsOnMap() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -493,7 +499,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                                         .position(friendLocation)
                                                         .icon(friendMarkerIcon)
                                                         .title(parts[parts.length - 1]);
-
 
 
                                                 // Thêm marker cho bạn bè trên bản đồ

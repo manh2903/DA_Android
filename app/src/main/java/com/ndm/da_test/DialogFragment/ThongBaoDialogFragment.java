@@ -1,7 +1,4 @@
-package com.ndm.da_test.Fragment;
-
-
-
+package com.ndm.da_test.DialogFragment;
 
 import android.Manifest;
 import android.content.Intent;
@@ -14,21 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
+import androidx.fragment.app.DialogFragment;
 
 import com.ndm.da_test.R;
 
-public class ThongBaoFragment extends Fragment {
-
+public class ThongBaoDialogFragment extends DialogFragment {
     private View view;
 
     private ImageView imgClear;
@@ -36,6 +26,14 @@ public class ThongBaoFragment extends Fragment {
     private Button btn_call;
 
     private static final int CALL_PERMISSION_REQUEST_CODE = 100; // Khai báo mã yêu cầu quyền gọi điện thoại
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.TransparentDialog);
+
+    }
 
     @Nullable
     @Override
@@ -49,7 +47,7 @@ public class ThongBaoFragment extends Fragment {
         imgClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeFragment();
+                dismiss();
             }
         });
 
@@ -75,10 +73,10 @@ public class ThongBaoFragment extends Fragment {
         return view;
     }
 
-    private void closeFragment() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove(ThongBaoFragment.this);
-        fragmentTransaction.commit();
-    }
+//    private void closeFragment() {
+//        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.remove(ThongBaoFragment.this);
+//        fragmentTransaction.commit();
+//    }
 }

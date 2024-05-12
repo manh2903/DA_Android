@@ -97,6 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vị trí của tôi"
+        android:textColor="@color/black"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="90dp"/>
@@ -108,5 +109,5 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/ic_vitri" />
+        android:background="@drawable/baseline_my_location_24" />
 </RelativeLayout>

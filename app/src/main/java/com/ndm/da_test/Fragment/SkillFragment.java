@@ -111,7 +111,7 @@ public class SkillFragment extends Fragment   {
     @Override
     public void onResume() {
         super.onResume();
-        // Đảm bảo rằng progressDialog không hiển thị khi Fragment được tái hiện
+
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }

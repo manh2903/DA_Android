@@ -2,15 +2,14 @@ package com.ndm.da_test.Entities;
 
 import java.util.List;
 
-public class Noti {
+public class Noti_v1 {
     private String title;
     private String body;
     private List<String> token;
-
     private double longitude;
     private double latitude;
 
-    public Noti(String title, String body, List<String> token, double longitude, double latitude) {
+    public Noti_v1(String title, String body, List<String> token, double longitude, double latitude) {
         this.title = title;
         this.body = body;
         this.token = token;
@@ -18,7 +17,7 @@ public class Noti {
         this.latitude = latitude;
     }
 
-    public Noti() {
+    public Noti_v1() {
     }
 
     public double getLongitude() {

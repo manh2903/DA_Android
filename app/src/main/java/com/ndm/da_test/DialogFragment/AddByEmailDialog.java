@@ -29,14 +29,16 @@ public class AddByEmailDialog extends DialogFragment {
     private Button btn_huy, btn_add;
 
     private EditText edt_email;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.dialog_add_by_email, container, false);
+        view = inflater.inflate(R.layout.dialog_add_by_email, container, false);
         initUI();
         initListen();
         return view;
     }
+
     private void initUI() {
         btn_huy = view.findViewById(R.id.btn_huy_add);
         btn_add = view.findViewById(R.id.btn_ok_add);
@@ -85,6 +87,10 @@ public class AddByEmailDialog extends DialogFragment {
                                         if (dataSnapshot.exists()) {
                                             // Người nhận đã là bạn bè của người gửi
                                             Toast.makeText(getActivity(), "Người này đã là bạn bè của bạn!", Toast.LENGTH_SHORT).show();
+                                            dismiss();
+                                        } else if (currentUserId.equals(receiverId)) {
+                                            Toast.makeText(getActivity(), "Bạn không thể kết bạn với chính bạn!", Toast.LENGTH_SHORT).show();
+                                            dismiss();
                                         } else {
                                             // Người nhận chưa là bạn bè của người gửi
                                             // Lưu ID của người nhận vào danh sách trong nút của người gửi

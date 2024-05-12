@@ -4,33 +4,37 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
-import android.content.Intent;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.FrameLayout;
 
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +61,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.ndm.da_test.Entities.TokenLocation;
 import com.ndm.da_test.R;
 import com.ndm.da_test.Service.LocationTrackingService;
-import com.ndm.da_test.Service.MyFirebaseMessagingService;
 import com.ndm.da_test.ViewPager.ViewPagerAdapter;
 
 import java.io.IOException;
@@ -67,12 +70,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     public GoogleMap gMap;
     public Geocoder geocoder;
     public FusedLocationProviderClient fusedLocationClient;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    public MainActivity.TokenManager TokenManager;
     private FrameLayout notification;
     private DrawerLayout mDrawerLayout;
     private BottomNavigationView mnavigationView;
@@ -81,8 +82,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private TextView tvName, tvEmail, tv_location;
     private CircleImageView img_user;
+
     public String token;
     private ProgressDialog progressDialog;
+
+
 
 
 
@@ -106,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         setupViewPager();
-        showUserInformation();
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         saveToken();
@@ -119,16 +123,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Nếu đã có quyền, lấy vị trí hiện tại
             getCurrentLocation(tv_location);
         }
-        initListener();
 
-        startLocationService();
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Xác định thành phần ứng dụng đang chạy trong chế độ foreground
+            String packageName = getApplicationContext().getPackageName();
+            ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            activityManager.getRunningAppProcesses().forEach(appProcess -> {
+                if (appProcess.processName.equals(packageName)) {
+                    appProcess.importance = ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
+                    appProcess.importanceReasonCode = ActivityManager.RunningAppProcessInfo.REASON_UNKNOWN;
+                }
+            });
+        }
+
+        initListener();
+        showUserInformation();
+        startLocationTrackingService();
 
     }
 
-    private void startLocationService() {
-        // Bắt đầu dịch vụ nền
-        Intent serviceIntent = new Intent(this, LocationTrackingService.class);
-        startService(serviceIntent);
+    private void startLocationTrackingService() {
+        Intent intent = new Intent(this, LocationTrackingService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+           // startForegroundService(intent);
+            startService(intent);
+        } else {
+            startService(intent);
+        }
+
     }
 
 
@@ -145,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         progressDialog = new ProgressDialog(this);
 
     }
-
 
     private void initListener() {
 
@@ -337,7 +360,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-
     public static class TokenManager {
         private DatabaseReference databaseReference;
 
@@ -363,9 +385,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (task.isSuccessful()) {
                     token = task.getResult();
                     Log.d("FCMToken", "Token: " + token);
-                    Intent intent = new Intent(getApplicationContext(), LocationTrackingService.class);
-                    intent.putExtra("TOKEN", token);
-                    startService(intent);// Imprime el token en el registro de logs
+
                 } else {
                     Exception exception = task.getException();
                     if (exception != null) {
@@ -385,5 +405,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             progressDialog.dismiss();
         }
     }
+
+
+
+
+
+
+
 
 }

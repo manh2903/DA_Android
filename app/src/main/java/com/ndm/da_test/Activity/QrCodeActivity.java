@@ -1,6 +1,7 @@
 package com.ndm.da_test.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -21,41 +22,74 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.ndm.da_test.DialogFragment.AddByQrDialog;
 import com.ndm.da_test.R;
 
 public class QrCodeActivity extends AppCompatActivity {
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 100;
     private ImageView img_Qr;
-    private Button btn_Clear,btn_Scan,btn_Save;
+    private Button btn_Clear, btn_Scan, btn_Save;
     private TextView tv_name;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code);
-        String qrCodeData = getIntent().getStringExtra("qrCodeData");
-        String fullname = getIntent().getStringExtra("fullname");
-        Log.d("qrCodeData", qrCodeData);
+        String UserID = getIntent().getStringExtra("qrCodeData");
+      //  String fullname = getIntent().getStringExtra("fullname");
+        Log.d("qrCodeData",UserID );
 
 
         initUI();
 
-        Bitmap qrCodeBitmap = generateQRCode(qrCodeData);
+        Bitmap qrCodeBitmap = generateQRCode(UserID);
         if (qrCodeBitmap != null) {
             img_Qr.setImageBitmap(qrCodeBitmap);
         }
 
-        String[] parts = fullname.split(" ");
-        tv_name.setText(parts[parts.length - 1]);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users").child(UserID);
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                    String fullname = dataSnapshot.child("fullName").getValue(String.class);
+                    String[] parts = fullname.split(" ");
+                    tv_name.setText(parts[parts.length - 1]);
+
+                } else {
+                    System.out.println("Không tìm thấy dữ liệu cho UserID: " + UserID);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý nếu có lỗi xảy ra trong quá trình truy xuất cơ sở dữ liệu
+                System.out.println("Lỗi khi truy xuất cơ sở dữ liệu: " + databaseError.getMessage());
+            }
+        });
+
+
+
+
 
         initListen();
+
     }
 
-    private void initUI(){
+    private void initUI() {
 
         img_Qr = findViewById(R.id.img_qr);
         btn_Clear = findViewById(R.id.btn_clear);
@@ -63,9 +97,10 @@ public class QrCodeActivity extends AppCompatActivity {
         btn_Save = findViewById(R.id.btn_save);
         tv_name = findViewById(R.id.tv_name);
 
+
     }
 
-    private void initListen(){
+    private void initListen() {
         btn_Clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,15 +119,37 @@ public class QrCodeActivity extends AppCompatActivity {
                 }
             }
         });
+
         btn_Scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(),ScanActivity.class);
-                startActivity(intent);
-
+                Intent intent = new Intent(QrCodeActivity.this, ScanActivity.class);
+                startActivityForResult(intent, 1); // Sử dụng startActivityForResult để nhận kết quả từ ScanActivity
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                // Lấy ID được gửi từ ScanActivity
+                String id = data.getStringExtra("id");
+                // Xử lý ID ở đây (ví dụ: hiển thị hoặc lưu trữ)
+                Log.d("resultCode ID", id);
+                if (id != null && !id.isEmpty()) {
+                    // Hiển thị AddByQrDialog
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userId", id);
+                    AddByQrDialog dialogFragment = new AddByQrDialog();
+                    dialogFragment.setArguments(bundle);
+                    dialogFragment.show(getSupportFragmentManager(), "MyDialogFragment");
+                }
+
+            }
+        }
     }
 
     private Bitmap generateQRCode(String data) {
@@ -159,6 +216,7 @@ public class QrCodeActivity extends AppCompatActivity {
             Toast.makeText(QrCodeActivity.this, "Failed to save QR Code to gallery", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
 }

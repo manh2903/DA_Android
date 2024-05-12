@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#99512807">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Thinh Nguyen"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"/>
+
+    <TextView
+        android:id="@+id/tvBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incoming Call ..."
+        android:textColor="@color/white"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:id="@+id/hello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="400dp">
+
+        <Button
+            android:id="@+id/decline"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="70dp"
+            android:background="@drawable/btn_background_decline"
+            android:text="Decline"
+            android:textColor="@color/white" />
+
+
+        <Button
+            android:id="@+id/answer"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_background_accept"
+            android:text="Accept"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</LinearLayout>

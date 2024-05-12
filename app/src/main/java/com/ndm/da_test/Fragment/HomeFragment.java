@@ -5,21 +5,25 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.ndm.da_test.Activity.MainActivity;
 import com.ndm.da_test.Activity.MapActivity;
+import com.ndm.da_test.DialogFragment.DialogListener;
+import com.ndm.da_test.DialogFragment.FireAlarmDialogFragment1;
 import com.ndm.da_test.R;
 
 public class HomeFragment extends Fragment {
@@ -30,6 +34,8 @@ public class HomeFragment extends Fragment {
 
     private View view;
     private FrameLayout fragmentContainer;
+
+    private FragmentManager fragmentManager;
 
     private static final int CALL_PERMISSION_REQUEST_CODE = 100; // Khai báo mã yêu cầu quyền gọi điện thoại
     @Nullable
@@ -47,7 +53,8 @@ public class HomeFragment extends Fragment {
         btnCall114 = view.findViewById(R.id.btn_call);
         btnMap = view.findViewById(R.id.btn_map);
         layout = view.findViewById(R.id.layout_fire_bell);
-        fragmentContainer = getActivity().findViewById(R.id.fragment_container); // Khởi tạo fragment container
+        fragmentContainer = getActivity().findViewById(R.id.fragment_container);// Khởi tạo fragment container
+        fragmentManager = getChildFragmentManager();
     }
 
     private void initListen(){
@@ -70,13 +77,13 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 // Show overlay
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FireAlarmFragment fireAlarmFragment = new FireAlarmFragment();
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out) // Hiệu ứng mờ
-                        .add(fragmentContainer.getId(), fireAlarmFragment, "fireAlarmFragment")
-                        .addToBackStack(null)
-                        .commit();
+                    FireAlarmDialogFragment1 dialogFragment = new FireAlarmDialogFragment1(() -> {
+                    Log.e("Location", "Test");
+
+                    Toast.makeText(requireContext(), "Thành công: ", Toast.LENGTH_SHORT).show();
+                });
+
+                dialogFragment.show(fragmentManager, "HomeFragment");
             }
         });
 

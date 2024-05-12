@@ -75,5 +75,41 @@
         android:layout_marginTop="10dp"
         android:text="UPDATE PROFILE" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Góp ý của bạn"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/edt_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:hint="Góp ý của bạn"
+        android:padding="10dp"
+        android:background="@drawable/edt_feedback_background"
+        android:lines="4"
+        android:gravity="top"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="* Mọi lời nhận xét, đề xuất, và ý kiến đóng góp từ bạn sẽ giúp chúng tôi hoàn thiện hơn trong công cuộc phòng chấy, chữa chấy. Mọi ý kiến đều được ghi nhận và xin cảm ơn bạn đã chia sẻ trải nghiệm và hỗ trợ chúng tôi trong việc nâng cao an toàn công đồng."
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="15dp"/>
+
+    <Button
+        android:id="@+id/btn_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gửi góp ý"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
+
 
 </LinearLayout>

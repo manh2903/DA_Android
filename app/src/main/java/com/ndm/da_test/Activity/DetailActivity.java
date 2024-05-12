@@ -15,6 +15,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 
+import com.ndm.da_test.Entities.Data;
 import com.ndm.da_test.Entities.Escape;
 import com.ndm.da_test.Entities.Skill;
 import com.ndm.da_test.R;
@@ -36,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
         if (bundle != null) {
             Escape escape = (Escape) bundle.getSerializable("object_escape");
             Skill skill = (Skill) bundle.getSerializable("Skill");
+            Data data = (Data) bundle.getSerializable("Noti Receiver");
 
             if (escape != null) {
 
@@ -61,6 +63,19 @@ public class DetailActivity extends AppCompatActivity {
                 webView.loadUrl(source);
 
             }
+
+            if (data != null) {
+                tv_title.setText(data.getBody());
+                String source = data.getSoucre();
+
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setDomStorageEnabled(true); // Bật bộ nhớ lưu trữ tạm thời cho WebView
+                // Tải trang web từ URL cụ thể
+                webView.loadUrl(source);
+
+            }
+
         }
 
         setSupportActionBar(toolbar);

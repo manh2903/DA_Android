@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.ndm.da_test.Entities.Data;
 import com.ndm.da_test.R;
 
 public class ThongBao_Activity extends AppCompatActivity {
@@ -26,9 +27,13 @@ public class ThongBao_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_thong_bao);
 
         initUI();
-        String notificationBody = getIntent().getStringExtra("notificationBody");
-        longitude = getIntent().getStringExtra("longitude");
-        latitude = getIntent().getStringExtra("latitude");
+
+        Bundle bundle = getIntent().getExtras();
+        Data data = (Data) bundle.getSerializable("data");
+
+        String notificationBody = data.getBody();
+        longitude = String.valueOf(data.getLongitude());
+        latitude = String.valueOf(data.getLatitude());
 
 
         fireLocation.setText(notificationBody);

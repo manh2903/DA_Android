@@ -9,19 +9,24 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature
         android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="false" />
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
         android:name=".Activity.MyApplication"
@@ -36,6 +41,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.Quizz"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.DetailNotiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.IncomingCallActivity"
+            android:exported="true" />
+        <activity
             android:name=".Activity.ScanActivity"
             android:exported="false" />
         <activity
@@ -46,7 +60,8 @@
             android:exported="false" />
         <activity
             android:name=".Activity.ThongBao_Activity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTop" />
         <activity
             android:name=".Activity.DetailActivity"
             android:exported="false" />
@@ -74,7 +89,8 @@
         </activity>
         <activity
             android:name=".Activity.MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity
             android:name=".Activity.DieuKhoan_Activity"
             android:exported="true" />
@@ -87,24 +103,25 @@
             android:value="@string/my_map_api_key" />
 
         <service
-            android:name=".Service.MyFirebaseMessagingService"
+            android:name=".Service.AppFirebaseMessagingService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:foregroundServiceType="phoneCall">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".Service.LocationTrackingService" />
-
-        <receiver
-            android:name=".Receiver.MyBroadcastReceiver"
+        <service android:name=".Service.CallingService" />
+        <service
+            android:name=".Service.LocationTrackingService"
             android:enabled="true"
             android:exported="true"
-            android:label="BootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+            android:foregroundServiceType="location" />
+
+        <receiver android:name=".Receiver.HangUpBroadcast" />
+        <receiver
+            android:name=".Receiver.LocationTrackingReceiver"
+            android:stopWithTask="false" />
     </application>
 
 </manifest>
