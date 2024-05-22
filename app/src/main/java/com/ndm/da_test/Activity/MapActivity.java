@@ -413,7 +413,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void showFire() {
-
         Log.d("utils", Utils.getUserId());
         String UserID = Utils.getUserId();
         DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference("notifications_receiver").child(UserID);
@@ -423,30 +422,41 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     // Đọc dữ liệu từ mỗi thông báo
                     if (snapshot != null) {
-                        String body = (String) snapshot.child("body").getValue();
-                        double longitude = (double) snapshot.child("longitude").getValue();
-                        double latitude = (double) snapshot.child("latitude").getValue();
-                        // Tạo LatLng từ kinh độ và vĩ độ
-                        LatLng locationLatLng = new LatLng(latitude, longitude);
-                        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_fire1);
 
 
-                        // Thêm marker cho vị trí này trên bản đồ
-                        MarkerOptions markerOptions = new MarkerOptions()
-                                .position(locationLatLng)
-                                .icon(icon)
-                                .title(body);
-                        gMap.addMarker(markerOptions);
+                        Double longitudeObj = snapshot.child("longitude").getValue(Double.class);
+                        Double latitudeObj = snapshot.child("latitude").getValue(Double.class);
+                        // Kiểm tra xem giá trị longitude và latitude có null không
+                        if (longitudeObj != null && latitudeObj != null) {
+                            double longitude = longitudeObj != 0 ? longitudeObj : 0;
+                            double latitude = latitudeObj != 0 ? latitudeObj : 0;
+                            // Kiểm tra nếu longitude và latitude khác 0 thì thêm marker vào bản đồ
+                            if (longitude != 0 && latitude != 0) {
+
+
+                                String body = snapshot.child("notificationBody").getValue(String.class);
+                                // Tạo LatLng từ kinh độ và vĩ độ
+                                LatLng locationLatLng = new LatLng(latitude, longitude);
+                                BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_fire1);
+                                // Thêm marker cho vị trí này trên bản đồ
+                                MarkerOptions markerOptions = new MarkerOptions()
+                                        .position(locationLatLng)
+                                        .icon(icon)
+                                        .title(body);
+                                gMap.addMarker(markerOptions);
+                            }
+                        }
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Xử lý lỗi nếu có
+                // Xử lý khi có lỗi xảy ra
             }
         });
     }
+
 
 
     private void showFriendsOnMap() {

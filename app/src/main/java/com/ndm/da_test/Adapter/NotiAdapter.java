@@ -3,6 +3,7 @@ package com.ndm.da_test.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,8 +21,6 @@ public class NotiAdapter extends RecyclerView.Adapter<NotiAdapter.NotiViewHolder
 
     private IClickNotiListener iClickNotiListener;
     private List<Data> notiReceivers;
-
-
 
     public NotiAdapter(List<Data> NotiReceivers, IClickNotiListener listener)
     {
@@ -44,6 +43,24 @@ public class NotiAdapter extends RecyclerView.Adapter<NotiAdapter.NotiViewHolder
         if(notiReceivers == null)
         {
             return;
+        }
+        String type = notiReceiver.getType();
+        if(type.equals("question"))
+        {
+            holder.imageView.setImageResource(R.drawable.question);
+            holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP); // or FIT_CENTER, FIT_XY, etc.
+
+        }
+        if(type.equals("type_incoming_call"))
+        {
+            holder.imageView.setImageResource(R.drawable.fire1);
+            holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP); // or FIT_CENTER, FIT_XY, etc.
+
+        }
+        if(type.equals("noti"))
+        {
+            holder.imageView.setImageResource(R.drawable.ligth1);
+            holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP); // or FIT_CENTER, FIT_XY, etc.
         }
         holder.tv_title.setText(notiReceiver.getTitle());
         holder.tv_Body.setText(notiReceiver.getBody());
@@ -69,6 +86,8 @@ public class NotiAdapter extends RecyclerView.Adapter<NotiAdapter.NotiViewHolder
     public class NotiViewHolder extends RecyclerView.ViewHolder {
         TextView tv_title,tv_Body,tv_Time;
 
+        ImageView imageView;
+
         LinearLayout layout;
 
         public NotiViewHolder(@NonNull View itemView) {
@@ -78,6 +97,7 @@ public class NotiAdapter extends RecyclerView.Adapter<NotiAdapter.NotiViewHolder
             tv_Body = itemView.findViewById(R.id.tv_body);
             tv_Body.setMaxLines(2); // Số dòng tối đa
             tv_Time = itemView.findViewById(R.id.tv_time);
+            imageView = itemView.findViewById(R.id.img_noti);
             layout = itemView.findViewById(R.id.layout_item);
         }
     }

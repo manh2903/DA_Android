@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 // https://assured-definitely-tortoise.ngrok-free.app
 public class RetrofitClient {
-    private static final String BASE_URL = "http://192.168.0.101:8080/"; // Địa chỉ base URL của API
+    private static final String BASE_URL = "http://192.168.0.106:8080/"; // Địa chỉ base URL của API
     private static Retrofit retrofit = null;
 
     static Gson gson = new GsonBuilder()

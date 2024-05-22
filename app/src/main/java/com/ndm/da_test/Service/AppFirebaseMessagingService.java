@@ -57,61 +57,65 @@ public class AppFirebaseMessagingService extends FirebaseMessagingService {
         String userId = Utils.getUserId();
 
 
-
-            data = new Data();
-            data.setType(message.getData().get("type"));
-            data.setTitle(message.getData().get("title"));
-            data.setBody(message.getData().get("body"));
+        data = new Data();
+        data.setType(message.getData().get("type"));
+        data.setTitle(message.getData().get("title"));
+        data.setBody(message.getData().get("body"));
+        if (message.getData().get("latitude") != null & message.getData().get("longitude") != null) {
             data.setLatitude(Double.parseDouble(message.getData().get("latitude")));
             data.setLongitude(Double.parseDouble(message.getData().get("longitude")));
-            data.setSoucre(message.getData().get("source"));
+        }
+        if (message.getData().get("source") != null) {
+            data.setSource(message.getData().get("source"));
+        }
+
+        if (message.getData().get("list_question") != null) {
+            data.setList_question(message.getData().get("list_question"));
+        }
 
 
-            // In thông tin vào log
-            Log.d("Notification", "Type: " + data.getType());
-            Log.d("Notification", "Title: " + data.getTitle());
-            Log.d("Notification", "Body: " + data.getBody());
-            Log.d("Notification", "Latitude: " + data.getLatitude());
-            Log.d("Notification", "Longitude: " + data.getLongitude());
+        // In thông tin vào log
+        Log.d("Notification", "Type: " + data.getType());
+        Log.d("Notification", "Title: " + data.getTitle());
+        Log.d("Notification", "Body: " + data.getBody());
+        Log.d("Notification", "Latitude: " + data.getLatitude());
+        Log.d("Notification", "Longitude: " + data.getLongitude());
 
-            String timestamp = getFormattedTimestamp();
-            String source = data.getSoucre();
-            String type = data.getType();
+        String timestamp = getFormattedTimestamp();
+        String type = data.getType();
 
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("data", data);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("data", data);
 
-            if (type.equals("type_incoming_call")) {
-                if (isAppInForeground(getApplicationContext())) {
-                    showIncomingCallNotification(getApplicationContext(), data.getTitle(), data.getBody());
-                    Intent intent = new Intent(getApplicationContext(), ThongBao_Activity.class);
-
-                    intent.putExtras(bundle);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+        if (type.equals("type_incoming_call")) {
+            if (isAppInForeground(getApplicationContext())) {
+                showIncomingCallNotification(getApplicationContext(), data.getTitle(), data.getBody());
+                Intent intent = new Intent(getApplicationContext(), ThongBao_Activity.class);
+                intent.putExtras(bundle);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, CallingService.class);
+                intent.putExtras(bundle);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(intent);
                 } else {
-                    Intent intent = new Intent(this, CallingService.class);
-                    intent.putExtras(bundle);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        startForegroundService(intent);
-                    } else {
-                        startService(intent);
-                    }
+                    startService(intent);
                 }
-            } else {
-                Log.d("hello ", "hello");
-                showNotification(getApplicationContext(), data.getTitle(), data.getBody());
             }
+        } else {
+            showNotification(getApplicationContext(), data.getTitle(), data.getBody());
+        }
 
-            firebaseHelper = new FirebaseHelper();
-            if (TextUtils.isEmpty(source)) {
-                firebaseHelper.saveNotificationData(userId, data.getType(), data.getTitle(), data.getBody(), data.getLongitude(), data.getLatitude(), timestamp);
-                Log.d("Source : ", "null");
-            } else {
-                firebaseHelper.saveNotificationData1(userId, data.getType(), data.getTitle(), data.getBody(), data.getSoucre(), timestamp);
-            }
-
+        firebaseHelper = new FirebaseHelper();
+        if (type.equals("noti")) {
+            firebaseHelper.saveNotificationData1(userId, data.getType(), data.getTitle(), data.getBody(), data.getSource(), timestamp);
+        } else if (type.equals("question")) {
+            firebaseHelper.saveNotificationData2(userId, data.getType(), data.getTitle(), data.getBody(), data.getList_question(), timestamp);
+        } else {
+            firebaseHelper.saveNotificationData(userId, data.getType(), data.getTitle(), data.getBody(), data.getLongitude(), data.getLatitude(), timestamp);
+        }
     }
 
 
@@ -131,13 +135,13 @@ public class AppFirebaseMessagingService extends FirebaseMessagingService {
                 for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
                     // Kiểm tra xem process của ứng dụng có trong foreground không
                     if (processInfo.processName.equals(context.getPackageName()) && processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                        Log.d("AppUtils", "Ứng dụng đang chạy ở foreground");
+                        Log.d("AppUtils", "Ứng dụng đang chạy ở background");
                         return true;
                     }
                 }
             }
         }
-        Log.d("AppUtils", "Ứng dụng đang chạy ở background");
+        Log.d("AppUtils", "Ứng dụng đang chạy ở foreground");
         return false;
     }
 
@@ -180,23 +184,27 @@ public class AppFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     public void showNotification(Context context, String title, String messageBody) {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         // Tạo Intent để khi người dùng nhấn vào thông báo sẽ mở ứng dụng
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
-        // Xây dựng thông báo
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
+                .setSound(null) // Tắt âm thanh
                 .setContentIntent(pendingIntent);
 
         // Hiển thị thông báo
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Notifications", NotificationManager.IMPORTANCE_HIGH);
+                channel.setDescription("Incoming call notifications");
+                notificationManager.createNotificationChannel(channel);
+            }
             notificationManager.notify(0, notificationBuilder.build());
         }
     }

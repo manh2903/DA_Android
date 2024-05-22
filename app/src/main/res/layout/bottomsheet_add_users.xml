@@ -45,18 +45,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/img_background_addfr"
-            android:src="@drawable/baseline_qr_code_scanner_24"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bằng cách quét mã QR"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"/>
+
     </LinearLayout>
     <TextView
         android:id="@+id/txt_count_receiver"

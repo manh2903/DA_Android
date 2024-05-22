@@ -25,12 +25,19 @@ public class FirebaseHelper {
     }
     public void saveNotificationData1(String userId,String type, String notificationTitle, String notificationBody, String source, String timestamp) {
         DatabaseReference userNotiRef = databaseReference.child(USER_NOTI_NODE).child(userId).push();
-
         userNotiRef.child("type").setValue(type);
         userNotiRef.child("notificationTitle").setValue(notificationTitle);
         userNotiRef.child("notificationBody").setValue(notificationBody);
         userNotiRef.child("source").setValue(source);
         userNotiRef.child("timestamp").setValue(timestamp);
+    }
 
+    public void saveNotificationData2(String userId,String type, String notificationTitle, String notificationBody, String list, String timestamp) {
+        DatabaseReference userNotiRef = databaseReference.child(USER_NOTI_NODE).child(userId).push();
+        userNotiRef.child("type").setValue(type);
+        userNotiRef.child("notificationTitle").setValue(notificationTitle);
+        userNotiRef.child("notificationBody").setValue(notificationBody);
+        userNotiRef.child("list_question").setValue(list);
+        userNotiRef.child("timestamp").setValue(timestamp);
     }
 }

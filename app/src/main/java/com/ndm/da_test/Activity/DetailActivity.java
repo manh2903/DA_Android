@@ -39,6 +39,7 @@ public class DetailActivity extends AppCompatActivity {
             Skill skill = (Skill) bundle.getSerializable("Skill");
             Data data = (Data) bundle.getSerializable("Noti Receiver");
 
+
             if (escape != null) {
 
                 tv_title.setText(escape.getName());
@@ -55,7 +56,6 @@ public class DetailActivity extends AppCompatActivity {
             if (skill != null) {
                 tv_title.setText(skill.getName());
                 String source = skill.getSource();
-
                 WebSettings webSettings = webView.getSettings();
                 webSettings.setJavaScriptEnabled(true);
                 webSettings.setDomStorageEnabled(true); // Bật bộ nhớ lưu trữ tạm thời cho WebView
@@ -66,14 +66,12 @@ public class DetailActivity extends AppCompatActivity {
 
             if (data != null) {
                 tv_title.setText(data.getBody());
-                String source = data.getSoucre();
-
+                String source = data.getSource();
                 WebSettings webSettings = webView.getSettings();
                 webSettings.setJavaScriptEnabled(true);
                 webSettings.setDomStorageEnabled(true); // Bật bộ nhớ lưu trữ tạm thời cho WebView
                 // Tải trang web từ URL cụ thể
                 webView.loadUrl(source);
-
             }
 
         }
@@ -92,8 +90,6 @@ public class DetailActivity extends AppCompatActivity {
         tv_title.setMaxLines(2); // Số dòng tối đa
         tv_title.setEllipsize(TextUtils.TruncateAt.END);
         webView = findViewById(R.id.webview);
-
-
     }
 
     @Override

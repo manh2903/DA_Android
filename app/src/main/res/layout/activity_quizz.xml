@@ -13,40 +13,61 @@
 
         <TextView
             android:id="@+id/title_detail"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:maxLines="2"
             android:singleLine="false"
-            android:text="Detail"
+            android:text="Bạn làm gì khi có hỏa hoạn ?"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
-
-        <FrameLayout
-            android:id="@+id/notification"
-            android:layout_width="55dp"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_share" />
-        </FrameLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+    </RelativeLayout>
+
+    <!-- LinearLayout chứa 3 nút nằm ở dưới cùng của view -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="10"
-        android:progress="1" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp">
 
+        <Button
+            android:id="@+id/btn_previous"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_previous_quizz" />
 
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@drawable/bg_quizz_send"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="1/10" />
 
-
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_next_quizz" />
+    </LinearLayout>
 </LinearLayout>

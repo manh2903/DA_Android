@@ -110,7 +110,7 @@ public class RequestSendAdapter extends RecyclerView.Adapter<RequestSendAdapter.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String currentUserId = currentUser.getUid();
-            DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference().child("requests").child(currentUserId);
+            DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference().child("sendFriend").child(currentUserId);
             // Sử dụng Query để tìm và xóa nút con có giá trị bằng receiverId
             requestsRef.orderByValue().equalTo(receiverId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

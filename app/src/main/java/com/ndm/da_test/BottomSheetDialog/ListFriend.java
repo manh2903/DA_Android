@@ -1,10 +1,8 @@
 package com.ndm.da_test.BottomSheetDialog;
 
-import static android.app.PendingIntent.getActivity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -23,9 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ndm.da_test.Activity.DetailActivity;
+
 import com.ndm.da_test.Adapter.FriendAdapter;
-import com.ndm.da_test.Entities.Skill;
 import com.ndm.da_test.Entities.User;
 import com.ndm.da_test.Interface.IClickItemFriendListener;
 import com.ndm.da_test.R;
@@ -64,7 +61,8 @@ public class ListFriend extends BottomSheetDialog {
         friendAdapter = new FriendAdapter(listFriend, new IClickItemFriendListener() {
             @Override
             public void onItemClick(User user) {
-                onCLickGoToDelete(user);
+//              onCLickGoToDelete(user);
+                onDeleteFriendClicked(user);
             }
         });
         rcv_friend.setAdapter(friendAdapter);
@@ -126,7 +124,27 @@ public class ListFriend extends BottomSheetDialog {
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
         }
+    }
 
+    private void onDeleteFriendClicked(User user) {
+        DeleteFriend delete = new DeleteFriend(getContext(), user, fragmentManager);
+        delete.show();
+        if (delete.getWindow() != null) {
+            delete.getWindow().setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+        }
+        delete.setOnDeleteFriendSuccessListener(new DeleteFriend.OnDeleteFriendSuccessListener() {
+            @Override
+            public void onDeleteFriendSuccess() {
+                onFriendDeleted();
+            }
+        });
+    }
+
+    private void onFriendDeleted() {
+        // Update the UI or perform any necessary actions when a friend is deleted
     }
 
 

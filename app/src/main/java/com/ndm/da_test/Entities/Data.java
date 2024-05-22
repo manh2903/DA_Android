@@ -12,16 +12,17 @@ public class Data implements Serializable {
     private double longitude;
     private String soucre;
     private String time;
+    private String list_question;
 
-    public Data(String type, String title, String body, double latitude, double longitude,String time, String soucre) {
+
+    public Data(String type, String title, String body, String time, String source) {
         this.type = type;
         this.title = title;
         this.body = body;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.time = time;
-        this.soucre = soucre;
+        this.soucre = source;
     }
+
 
     public Data(String type, String title, String body, double latitude, double longitude,String time) {
         this.type = type;
@@ -77,11 +78,11 @@ public class Data implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getSoucre() {
+    public String getSource() {
         return soucre;
     }
 
-    public void setSoucre(String soucre) {
+    public void setSource(String soucre) {
         this.soucre = soucre;
     }
 
@@ -91,6 +92,14 @@ public class Data implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getList_question() {
+        return list_question;
+    }
+
+    public void setList_question(String list_question) {
+        this.list_question = list_question;
     }
 
     @Override

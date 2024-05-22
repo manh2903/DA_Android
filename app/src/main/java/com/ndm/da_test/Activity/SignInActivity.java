@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +30,8 @@ public class SignInActivity extends AppCompatActivity {
     TextInputEditText txtEmail,  txtPassEdt;
     private Button btnSignIn;
     private ProgressDialog progressDialog;
+
+    private TextView tv_forgot_pw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class SignInActivity extends AppCompatActivity {
         btnSignIn = findViewById(R.id.btn_sign_in);
         progressDialog = new ProgressDialog(this);
 
+        tv_forgot_pw = findViewById(R.id.tv_forgot_pass);
+
     }
     private void initListener() {
         layoutSignUp.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +69,14 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onClickSignIn();
+            }
+        });
+
+        tv_forgot_pw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this, ForgotPassActivity.class);
+                startActivity(intent);
             }
         });
     }

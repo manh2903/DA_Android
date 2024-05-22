@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ndm.da_test.BottomSheetDialog.AddUsers;
 import com.ndm.da_test.R;
 
 public class AddByEmailDialog extends DialogFragment {
@@ -29,6 +30,7 @@ public class AddByEmailDialog extends DialogFragment {
     private Button btn_huy, btn_add;
 
     private EditText edt_email;
+    private AddUsers addUsers;
 
     @Nullable
     @Override
@@ -36,6 +38,7 @@ public class AddByEmailDialog extends DialogFragment {
         view = inflater.inflate(R.layout.dialog_add_by_email, container, false);
         initUI();
         initListen();
+
         return view;
     }
 
@@ -104,7 +107,10 @@ public class AddByEmailDialog extends DialogFragment {
                                             Toast.makeText(getActivity(), "Gửi lời mời kết bạn thành công!", Toast.LENGTH_SHORT).show();
 
                                             // Sau khi thực hiện xong, bạn có thể đóng fragment này và quay lại fragment trước đó
+
+
                                             dismiss();
+
                                         }
                                     }
 

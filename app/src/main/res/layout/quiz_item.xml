@@ -1,0 +1,62 @@
+<!-- quiz_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/question_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="Câu 1: Khi đang ở trong siêu thị, nếu phát hiện siêu thị đang bị cháy, bạn sẽ làm gì ?"
+        android:background="@drawable/op_quizz"
+        android:padding="16dp"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/option1_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="A. Hô hoán cho mọi người chạy"
+        android:background="@drawable/op_quizz"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/option2_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="B. Tới nơi có cháy để chữa cháy"
+        android:background="@drawable/op_quizz"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/option3_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="C. Gọi diện cho lực lượng Cảnh sát PCCC"
+        android:background="@drawable/op_quizz"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/option4_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="D. Bình tĩnh, báo động có cháy, ngắt cầu giao điện, dùng phương tiện chữa cháy tại chỗ chữa cháy và gọi điện báo cho lực lượng Cảnh sát PCCC"
+        android:background="@drawable/op_quizz"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"/>
+
+
+
+</LinearLayout>

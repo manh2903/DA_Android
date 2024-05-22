@@ -28,13 +28,13 @@
         android:id="@+id/img_user"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/sharingan"/>
+        android:src="@drawable/ic_friend"/>
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ĐTTT"
+        android:text=""
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
@@ -43,7 +43,7 @@
         android:id="@+id/tv_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="manh@gmail.com"
+        android:text=""
         android:textSize="14sp"
         android:textColor="@color/black"/>
 

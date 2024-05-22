@@ -1,12 +1,12 @@
 package com.ndm.da_test.DialogFragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,9 +31,18 @@ public class DeleteFrDialog extends DialogFragment {
     private Button btn_delete, btn_huy;
     private TextView txt_delete;
     private User user;
+    private Context context;
+
 
     public DeleteFrDialog(User user) {
         this.user = user;
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
     @Nullable
@@ -66,6 +75,7 @@ public class DeleteFrDialog extends DialogFragment {
             public void onClick(View v) {
                 deleteFriend();
                 dismiss();
+
             }
         });
     }
@@ -85,7 +95,10 @@ public class DeleteFrDialog extends DialogFragment {
                         snapshot1.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(getContext(), "Xóa bạn thành công", Toast.LENGTH_SHORT).show();
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(context, "Bạn đã xóa thành công!", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
                         });
                     }

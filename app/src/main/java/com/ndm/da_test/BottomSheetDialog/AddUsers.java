@@ -1,3 +1,4 @@
+
 package com.ndm.da_test.BottomSheetDialog;
 
 import static androidx.core.content.ContextCompat.startActivity;
@@ -31,14 +32,14 @@ import com.ndm.da_test.DialogFragment.AddByEmailDialog;
 import com.ndm.da_test.DialogFragment.AddByQrDialog;
 import com.ndm.da_test.Entities.User;
 import com.ndm.da_test.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddUsers extends BottomSheetDialog {
-    private LinearLayout layoutEmail, layoutQR;
+    private LinearLayout layoutEmail;
     private RecyclerView rcv_request, rcv_receiver;
     private TextView txt_Count_Send, txt_Count_Receiver;
-
     private List<User> mListUser = new ArrayList<>();
     private List<User> mListUserRcv = new ArrayList<>();
     private RequestSendAdapter requestSendAdapter;
@@ -65,7 +66,7 @@ public class AddUsers extends BottomSheetDialog {
 
     private void initUI() {
 
-        layoutQR = findViewById(R.id.layout_addbyQR);
+
         layoutEmail = findViewById(R.id.layout_addbyemail);
         txt_Count_Send = findViewById(R.id.txt_count_send);
         txt_Count_Receiver = findViewById(R.id.txt_count_receiver);
@@ -93,15 +94,8 @@ public class AddUsers extends BottomSheetDialog {
             }
         });
 
-        layoutQR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ScanActivity.class);
-                ContextCompat.startActivity(getContext(),intent,null);
-            }
-        });
-    }
 
+    }
 
 
     private void getUserInfoFromRequest() {
@@ -133,6 +127,7 @@ public class AddUsers extends BottomSheetDialog {
                             }
 
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                             // Đã xảy ra lỗi khi truy vấn Realtime Database
@@ -182,9 +177,10 @@ public class AddUsers extends BottomSheetDialog {
                                 txt_Count_Receiver.setText("Yêu cầu kết bạn (" + mListUserRcv.size() + ")");
                             }
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // Đã xảy ra lỗi khi truy vấn Realtime Database
+                                                                    // Đã xảy ra lỗi khi truy vấn Realtime Database
                             Log.e("AddByEmailFragment", "Error getting user data", databaseError.toException());
                         }
                     }
@@ -192,6 +188,7 @@ public class AddUsers extends BottomSheetDialog {
                 }
                 receiverAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Đã xảy ra lỗi khi truy vấn Realtime Database
@@ -200,6 +197,6 @@ public class AddUsers extends BottomSheetDialog {
         });
     }
 
+
+
 }
-
-

@@ -31,13 +31,17 @@ android {
     }
     buildFeatures {
         viewBinding = true
+
     }
 }
 
 dependencies {
 
+    implementation ("androidx.fragment:fragment:1.7.1")
+    implementation ("androidx.activity:activity:1.9.0")
+
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.core:core:1.6.0")
+    implementation("androidx.core:core:1.13.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.annotation:annotation:1.7.1")

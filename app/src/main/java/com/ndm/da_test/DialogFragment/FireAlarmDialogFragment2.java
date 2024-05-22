@@ -146,6 +146,38 @@ public class FireAlarmDialogFragment2 extends DialogFragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+        DatabaseReference tokenFr = database.getReference("friend").child(Utils.getUserId());
+        tokenFr.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String IDFriend = dataSnapshot.getKey();
+                    DatabaseReference tokensFR = database.getReference("tokens").child(IDFriend);
+                    tokensFR.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+                                String tokenLocationFR = dataSnapshot1.getKey();
+                                Log.d("tokenLocationFR", tokenLocationFR);
+                                tokens.add(tokenLocationFR);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
@@ -241,9 +273,7 @@ public class FireAlarmDialogFragment2 extends DialogFragment {
 
                     ThongBaoDialogFragment thongBaoDialogFragment = new ThongBaoDialogFragment();
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-//                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                    transaction.add(thongBaoDialogFragment,"thông báo" );
-//                    transaction.commit();
+
 
                     thongBaoDialogFragment.show(fragmentManager, "thông báo");
 

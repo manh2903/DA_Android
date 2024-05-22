@@ -212,8 +212,41 @@ public class FireAlarmDialogFragment1 extends DialogFragment {
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        DatabaseReference tokenFr = database.getReference("friend").child(Utils.getUserId());
+        tokenFr.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String IDFriend = dataSnapshot.getKey();
+                    DatabaseReference tokensFR = database.getReference("tokens").child(IDFriend);
+                    tokensFR.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+                                String tokenLocationFR = dataSnapshot1.getKey();
+                                Log.d("tokenLocationFR", tokenLocationFR);
+                                tokens.add(tokenLocationFR);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -254,7 +287,7 @@ public class FireAlarmDialogFragment1 extends DialogFragment {
 
                 DistanceCalculator distanceCalculator = new DistanceCalculator();
                 float distance = distanceCalculator.calculateDistance(currentLocation.getLatitude(), currentLocation.getLongitude(), tokenLatitude, tokenLongitude);
-                Log.d("distance : " , String.valueOf(distance));
+                Log.d("distance : ", String.valueOf(distance));
 
                 if (distance <= 100) {
                     // Nếu có, thêm TokenLocation vào danh sách
@@ -280,9 +313,6 @@ public class FireAlarmDialogFragment1 extends DialogFragment {
             data.setBody("Địa chỉ: " + locationAddress);
             data.setLatitude(currentLocation.getLatitude());
             data.setLongitude(currentLocation.getLongitude());
-
-
-
 
 
             Noti_v2 noti_v2 = new Noti_v2();

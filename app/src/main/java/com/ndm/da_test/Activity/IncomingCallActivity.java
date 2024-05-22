@@ -1,5 +1,6 @@
 package com.ndm.da_test.Activity;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,6 +14,8 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.ndm.da_test.Entities.Data;
 import com.ndm.da_test.R;
+import com.ndm.da_test.Receiver.HangUpBroadcast;
+import com.ndm.da_test.Service.CallingService;
 
 
 public class IncomingCallActivity extends AppCompatActivity {
@@ -38,7 +41,6 @@ public class IncomingCallActivity extends AppCompatActivity {
         tvTitle.setText(data.getTitle());
         tvBody.setText(data.getBody());
 
-
         btnAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,9 +54,22 @@ public class IncomingCallActivity extends AppCompatActivity {
         btnDecline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                Intent serviceIntent = new Intent(getApplicationContext(), CallingService.class);
+                stopService(serviceIntent);
+
+
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent serviceIntent = new Intent(getApplicationContext(), CallingService.class);
+        stopService(serviceIntent);
     }
 
 

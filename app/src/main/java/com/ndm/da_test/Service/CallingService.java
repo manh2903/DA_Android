@@ -5,14 +5,20 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+
 import androidx.core.app.NotificationCompat;
 
 import com.ndm.da_test.Activity.IncomingCallActivity;
@@ -21,11 +27,12 @@ import com.ndm.da_test.Entities.Data;
 import com.ndm.da_test.R;
 import com.ndm.da_test.Receiver.HangUpBroadcast;
 
-import java.io.Serializable;
+
 
 
 public class CallingService extends Service {
     public static final String CHANNEL_ID = "Calling channel id";
+
 
     private Data data;
 
@@ -36,6 +43,7 @@ public class CallingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
 
         if (intent != null) {
             Bundle extras = intent.getExtras();
@@ -51,7 +59,21 @@ public class CallingService extends Service {
         } else {
             Log.d("CallingService", "Data is null");
         }
+
+
         showIncomingCallPopup();
+
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = powerManager.isInteractive();
+
+        if (!isScreenOn) {
+            // Nếu màn hình đang tắt, sáng màn hình và hiển thị IncomingCallActivity
+            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK |
+                    PowerManager.ACQUIRE_CAUSES_WAKEUP, "AppName:WakeLock");
+            wakeLock.acquire(10000);
+        }
+
+
         return START_NOT_STICKY;
     }
 
@@ -73,8 +95,10 @@ public class CallingService extends Service {
         RemoteViews customView = new RemoteViews(getPackageName(), R.layout.custom_call);
         customView.setOnClickPendingIntent(R.id.answer, answerPendingIntent);
         customView.setOnClickPendingIntent(R.id.decline, hangupPendingIntent);
-        customView.setTextViewText(R.id.tv_title,data.getTitle());
-        customView.setTextViewText(R.id.tv_body,data.getBody());
+        customView.setTextViewText(R.id.tv_title, data.getTitle());
+        customView.setTextViewText(R.id.tv_body, data.getBody());
+
+        Uri soundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.tieng_canh_bao);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -82,7 +106,7 @@ public class CallingService extends Service {
                 .setFullScreenIntent(incomingCallPendingIntent, true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVibrate(new long[]{0, 500, 1000})
-                .setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring_stone))
+                .setSound(soundUri)
                 .setAutoCancel(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -105,7 +129,7 @@ public class CallingService extends Service {
             channel = new NotificationChannel(CHANNEL_ID, name, importance);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channel.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring_stone), audioAttributes);
+            channel.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.tieng_canh_bao), audioAttributes);
         }
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -3,15 +3,11 @@ package com.ndm.da_test.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -24,14 +20,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.ndm.da_test.Adapter.NotiAdapter;
 import com.ndm.da_test.Entities.Data;
 
-import com.ndm.da_test.Entities.Noti_receiver;
-import com.ndm.da_test.Entities.Skill;
 import com.ndm.da_test.Interface.IClickNotiListener;
 import com.ndm.da_test.R;
 import com.ndm.da_test.Utils.Utils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -41,7 +42,6 @@ public class NotificationActivity extends AppCompatActivity {
     private NotiAdapter notiAdapter;
 
     private List<Data> noti_receiverList;
-
 
 
     @Override
@@ -114,21 +114,52 @@ public class NotificationActivity extends AppCompatActivity {
                     String source = dataSnapshot.child("source").exists() ?
                             dataSnapshot.child("source").getValue(String.class) : null;
 
+                    String list_question = dataSnapshot.child("list_question").exists() ?
+                            dataSnapshot.child("list_question").getValue(String.class) : null;
+
                     Data notiReceiver = new Data();
 
-                    if (latitude != null && longitude != null) {
-                         notiReceiver = new Data(type, title, body, latitude.doubleValue(), longitude.doubleValue(), time, source);
-                    } else {
 
-                         notiReceiver = new Data(type, title, body, 0, 0, time, source);
+                    if (type.equals("type_incoming_call")) {
+                        if (latitude != null && longitude != null) {
+                            notiReceiver = new Data(type, title, body, latitude.doubleValue(), longitude.doubleValue(), time);
+                        } else {
+                            // Xử lý trường hợp latitude hoặc longitude bị null
+                            // Ví dụ: sử dụng giá trị mặc định hoặc bỏ qua dữ liệu này
+                            notiReceiver = new Data(type, title, body, 0.0, 0.0, time);
+                        }
+                    } else if (type.equals("question")) {
+                        notiReceiver = new Data(type, title, body, time, list_question);
+                    } else if (type.equals("noti")) {
+                        notiReceiver = new Data(type, title, body, time, source);
                     }
-
-
-                //    Data notiReceiver = new Data(type, title, body, latitude, longitude, time, source);
-
 
                     noti_receiverList.add(notiReceiver);
                 }
+                Collections.sort(noti_receiverList, new Comparator<Data>() {
+                    @Override
+                    public int compare(Data d1, Data d2) {
+                        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                        try {
+                            String time1 = d1.getTime();
+                            String time2 = d2.getTime();
+
+                            if (time1 != null && time2 != null) {
+                                Date date1 = format.parse(time1);
+                                Date date2 = format.parse(time2);
+                                return date2.compareTo(date1); // Sắp xếp giảm dần theo thời gian
+                            } else {
+                                // Xử lý trường hợp time1 hoặc time2 bị null
+                                // Ví dụ: giữ nguyên thứ tự hoặc áp dụng quy tắc sắp xếp khác
+                                return 0;
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        return 0;
+                    }
+                });
+
                 notiAdapter.notifyDataSetChanged();
             }
             @Override
@@ -138,7 +169,8 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
-        @Override
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
@@ -150,7 +182,6 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (isTaskRoot()) {
-            // Nếu không có màn hình trước đó trong back stack, tự động quay lại MainActivity
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish(); // Kết thúc Activity hiện tại
@@ -160,18 +191,24 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
 
-    private void onClickGoToDetail(Data notiReceiver){
+    private void onClickGoToDetail(Data notiReceiver) {
         if (notiReceiver.getType().equals("type_incoming_call")) {
             Intent intent = new Intent(this, DetailNotiActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("Noti Receiver", notiReceiver);
             intent.putExtras(bundle);
             startActivity(intent);
+
         } else if (notiReceiver.getType().equals("question")) {
-            // Mở MainActivity
-            Intent intent = new Intent(this, MainActivity.class);
+
+            Intent intent = new Intent(this, QuizzActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("Noti Receiver", notiReceiver);
+            intent.putExtras(bundle);
             startActivity(intent);
-        } else if (notiReceiver.getType().equals("hello")) {
+
+        } else if (notiReceiver.getType().equals("noti")) {
+
             Intent intent = new Intent(this, DetailActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("Noti Receiver", notiReceiver);

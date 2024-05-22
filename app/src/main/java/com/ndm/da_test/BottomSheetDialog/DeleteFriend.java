@@ -21,6 +21,16 @@ public class DeleteFriend extends BottomSheetDialog {
 
     private FragmentManager fragmentManager;
 
+    public OnDeleteFriendSuccessListener onDeleteFriendSuccessListener;
+
+    public interface OnDeleteFriendSuccessListener {
+        void onDeleteFriendSuccess();
+    }
+
+    public void setOnDeleteFriendSuccessListener(OnDeleteFriendSuccessListener listener) {
+        onDeleteFriendSuccessListener = listener;
+    }
+
     public DeleteFriend(@NonNull Context context, User user, FragmentManager fragmentManager) {
         super(context);
         this.user = user;
@@ -53,6 +63,9 @@ public class DeleteFriend extends BottomSheetDialog {
             public void onClick(View v) {
                 showDeleteFrDialog(user);
                 dismiss();
+                if (onDeleteFriendSuccessListener != null) {
+                    onDeleteFriendSuccessListener.onDeleteFriendSuccess();
+                }
             }
         });
     }

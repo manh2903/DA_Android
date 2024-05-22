@@ -53,7 +53,7 @@ import com.ndm.da_test.Activity.MainActivity;
 import com.ndm.da_test.Activity.QrCodeActivity;
 import com.ndm.da_test.BottomSheetDialog.AddUsers;
 import com.ndm.da_test.BottomSheetDialog.ListFriend;
-import com.ndm.da_test.DialogFragment.AddByQrDialog;
+
 import com.ndm.da_test.R;
 
 import java.io.IOException;

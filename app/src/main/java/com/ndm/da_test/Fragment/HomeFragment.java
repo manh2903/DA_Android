@@ -77,13 +77,12 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 // Show overlay
 
-                    FireAlarmDialogFragment1 dialogFragment = new FireAlarmDialogFragment1(() -> {
+                    FireAlarmDialogFragment1 fireAlarmDialogFragment1 = new FireAlarmDialogFragment1(() -> {
                     Log.e("Location", "Test");
-
                     Toast.makeText(requireContext(), "Thành công: ", Toast.LENGTH_SHORT).show();
                 });
 
-                dialogFragment.show(fragmentManager, "HomeFragment");
+                fireAlarmDialogFragment1.show(fragmentManager, "HomeFragment");
             }
         });
 

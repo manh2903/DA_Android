@@ -14,14 +14,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.ActivityManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 
 import android.location.Address;
@@ -29,7 +25,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,10 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public String token;
     private ProgressDialog progressDialog;
-
-
-
-
 
 
     @Override
@@ -245,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_change_password) {
-            Intent intent = new Intent(getApplicationContext(), Hello.class);
+            Intent intent = new Intent(getApplicationContext(), ChangePWActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
